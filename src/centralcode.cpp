@@ -66,14 +66,6 @@ int main(int argc, char const *argv[]) {
   // outputFile.close();
   // JMarch end
 
-  // Using Andrews Algorithm
-  // setSize(total_points);
-  // Point indices[total_points];
-  // Duplicate(indices,inp);
-  // Arrange(inp);
-  // int points_on_hull = Convex(inp);
-  // Output_CH(inp,indices,points_on_hull);
-  // Andrews end
 
   // Using Graham's Scan
   Node *root;
