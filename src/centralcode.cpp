@@ -52,45 +52,45 @@ int main(int argc, char const *argv[]) {
   inputFile.close();
 
   // Using  JMarch
-  // int result[total_points];
-  // int points_on_hull = hull_compute(inp,result,total_points);
+  int result[total_points];
+  int points_on_hull = hull_compute(inp,result,total_points);
   // cout << points_on_hull << endl;
-  // outputFile.open("output_jarvis.ch");
-  // outputFile << "CH" << endl;
-  // outputFile << total_points << " " << points_on_hull << endl;
-  // for(int i=0;i < total_points; i++)
-  // {
-  //     outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
-  // }
-  // for(int i=0;i < points_on_hull;i++)
-  // {
-  //     outputFile<<result[i]<<" ";
-  // }
-  // outputFile << endl;
-  // outputFile.close();
+  outputFile.open("output/output_jarvis.ch");
+  outputFile << "CH" << endl;
+  outputFile << total_points << " " << points_on_hull << endl;
+  for(int i=0;i < total_points; i++)
+  {
+      outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
+  }
+  for(int i=0;i < points_on_hull;i++)
+  {
+      outputFile<<result[i]<<" ";
+  }
+  outputFile << endl;
+  outputFile.close();
   // JMarch end
 
 
   // Using Graham's Scan
-  Node *root;
-  int points_on_hull = getHull(inp, total_points, &root);
-  if(points_on_hull==-1)
-  {
-    return 0;
-  }
-  outputFile.open("output_graham.ch");
-  outputFile << "CH" << endl;
-  outputFile << total_points << " " << points_on_hull << endl;
+  // Node *root;
+  // int points_on_hull = getHull(inp, total_points, &root);
+  // if(points_on_hull==-1)
+  // {
+  //   return 0;
+  // }
+  // outputFile.open("output/output_graham.ch");
+  // outputFile << "CH" << endl;
+  // outputFile << total_points << " " << points_on_hull << endl;
 
-  for (int i = 0; i < total_points; i++) {
-      outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
-  }
-  for (int i = 0; i < points_on_hull; i++)
-  {
-      Point temp = pop(&root);
-      outputFile << temp.index << " ";
-  }
-  outputFile << endl;
-  outputFile.close();
+  // for (int i = 0; i < total_points; i++) {
+  //     outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
+  // }
+  // for (int i = 0; i < points_on_hull; i++)
+  // {
+  //     Point temp = pop(&root);
+  //     outputFile << temp.index << " ";
+  // }
+  // outputFile << endl;
+  // outputFile.close();
   // Graham's end
 }

@@ -22,40 +22,52 @@ int orient(Point p1,Point p2,Point p3)
 		return 2; // counterclockwise
 	}
 }
+
 /// Computes the set of points which form the convex hull and returns the total number of such points.
 int hull_compute(Point input[],int result[],int N)
 {
 	int j=0;
 	double small1=input[0].x,small2=input[0].y;
 	int small_add=0;
+
+	// Find leftmost element
 	for(int i=1;i<N;i++)
 	{
-		if(input[i].x<small1)
+		if(input[i].x < small1)
 		{
 			small1=input[i].x;
 			small_add=i;
 		}
 		else if(input[i].x==small1)
-			if(input[i].y<small2)
+		{
+			if(input[i].y < small2)
 			{
-				small2=input[i].y;
-				small_add=i;
+				small2 = input[i].y;
+				small_add = i;
 			}
+		}
 	}
-	result[j++]=small_add;
-	int a=small_add,b=-1;
+
+	result[j++] = small_add;
+	int a = small_add, b =-1;
+
+	// Compute hull
 	while(b!=small_add)
 	{
 		b=(a+1)%N;
-			for(int i=0;i<N;i++)
+		for(int i=0;i<N;i++)
+		{
+			if(a==i||b==i)
 			{
-				if(a==i||b==i)
-					continue;
-				if(orient(input[a],input[b],input[i])==2)
-					b=i;
+				continue;
 			}
-			result[j++]=b;
-			a=b;
+			if(orient(input[a],input[b],input[i])==2)
+			{
+				b=i;
+			}
+		}
+		result[j++]=b;
+		a = b;
 	}
 	return j-1;
 }
