@@ -8,12 +8,15 @@
  */
 PolarPoint convertToPolar(Point p, Point origin)
 {
-  p.x -= origin.x;
-  p.y -= origin.y;
-  double r = sqrt(p.x*p.x + p.y*p.y);
-  if(r==0.0 || r==-0.0) return PolarPoint(0.0,0.0,p.index);
-  double theta = atan(p.y/p.x);
-  return PolarPoint(r,theta,p.index);
+	p.x -= origin.x;
+	p.y -= origin.y;
+	double r = sqrt(p.x*p.x + p.y*p.y);
+	if(r == 0.0 || r == -0.0)
+	{
+		return PolarPoint(0.0,0.0,p.index);
+	}
+	double theta = atan(p.y/p.x);
+	return PolarPoint(r,theta,p.index);
 }
 
 /**
@@ -24,23 +27,23 @@ PolarPoint convertToPolar(Point p, Point origin)
  */
 int compareTheta(PolarPoint p, PolarPoint q)
 {
-  // abs() returns a rounded value. fabs() is for floats
-  double diff = fabs(p.theta - q.theta);
-  if(  diff < 0.000001)
-  {
-    // Equal theta. Margin to account for floating point error
-    return 0;
-  }
-  else if(p.theta > q.theta)
-  {
-    //greater
-    return 1;
-  }
-  else
-  {
-    //lesser
-    return -1;
-  }
+	// abs() returns a rounded value. fabs() is for doubles
+	double diff = fabs(p.theta - q.theta);
+	if(diff < 0.000000000001)
+	{
+		// Equal theta. Margin to account for floating point error
+		return 0;
+	}
+	else if(p.theta > q.theta)
+	{
+		//greater
+		return 1;
+	}
+	else
+	{
+		//lesser
+		return -1;
+	}
 }
 
 //
@@ -49,42 +52,48 @@ int compareTheta(PolarPoint p, PolarPoint q)
 
 int isEmpty(Node* root)
 {
-  return !root;
+	return !root;
 }
 
 void push(Point p,Node** root)
 {
-  Node* temp = (Node*) malloc(sizeof(Node));
-  temp->point = p;
-  temp->next = *root;
-  *root = temp;
+	Node* temp = (Node*) malloc(sizeof(Node));
+	temp->point = p;
+	temp->next = *root;
+	*root = temp;
 }
 
 Point pop(Node** root)
 {
-  //Stack is never empty in our usage, but check is kept. TODO think of better return here
-  if(isEmpty(*root)) return Point(-1.0,-1.0);
-  Point p = (*root)->point;
-  *root = (*root)->next;
-  return p;
+	//Stack is never empty in our usage, but check is kept. TODO think of better return here
+	if(isEmpty(*root))
+	{
+		return Point(-1.0,-1.0);
+	}
+	Point p = (*root)->point;
+	*root = (*root)->next;
+	return p;
 }
 
 Point peek(Node** root)
 {
-  //Stack is never empty in our usage, but check is kept. TODO think of better return here
-  if(isEmpty(*root)) return Point(-1.0,-1.0);
-  return (*root)->point;
+	//Stack is never empty in our usage, but check is kept. TODO think of better return here
+	if(isEmpty(*root))
+	{
+		return Point(-1.0,-1.0);
+	}
+	return (*root)->point;
 }
 
 void printStack(Node** root)
 {
-  Node* temp = *root;
-  while(temp!=NULL)
-  {
-    printf("(%f,%f)\n",temp->point.x,temp->point.y);
-    temp = temp->next;
-  }
-  printf("\n");
+	Node* temp = *root;
+	while(temp!=NULL)
+	{
+		printf("(%f,%f)\n",temp->point.x,temp->point.y);
+		temp = temp->next;
+	}
+	printf("\n");
 }
 
 //
@@ -98,9 +107,9 @@ void printStack(Node** root)
  */
 void printArray(PolarPoint p[], int n)
 {
-  for (int i = 0; i < n; i++) {
-    std::cout << p[i].r << ',' << p[i].theta << std::endl;
-  }
+	for (int i = 0; i < n; i++) {
+		std::cout << p[i].r << ',' << p[i].theta << std::endl;
+	}
 }
 
 /**
@@ -110,9 +119,9 @@ void printArray(PolarPoint p[], int n)
  */
 void printArray(Point p[], int n)
 {
-  for (int i = 0; i < n; i++) {
-    printf("%f,%f\n",p[i].x,p[i].y );
-  }
+	for (int i = 0; i < n; i++) {
+		printf("%f,%f\n",p[i].x,p[i].y );
+	}
 }
 
 /**
@@ -123,10 +132,10 @@ void printArray(Point p[], int n)
  */
 void swap(int i,int j, PolarPoint inp[])
 {
-  PolarPoint temp = inp[i];
-  inp[i] = inp[j];
-  inp[j] = temp;
-  return;
+	PolarPoint temp = inp[i];
+	inp[i] = inp[j];
+	inp[j] = temp;
+	return;
 }
 
 /**
@@ -137,8 +146,8 @@ void swap(int i,int j, PolarPoint inp[])
  */
 void swap(int i,int j, Point inp[])
 {
-  Point temp = inp[i];
-  inp[i] = inp[j];
-  inp[j] = temp;
-  return;
+	Point temp = inp[i];
+	inp[i] = inp[j];
+	inp[j] = temp;
+	return;
 }

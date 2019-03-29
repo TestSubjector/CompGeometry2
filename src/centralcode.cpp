@@ -1,8 +1,10 @@
 #include <stdlib.h>
+#include <string>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
 #include "graham_scan.h"
+#include "jmarch.h"
 
 using namespace std;
 // This assumes only one delimiter per string
@@ -13,10 +15,11 @@ Point parsePoint(string inp, char delim = ' ')
   // Though there will always be one delimiter
   if(loc != string::npos)
   {
-    f1 = atof(inp.substr(0,loc).c_str());
-    f2 = atof(inp.substr(loc+1).c_str());
+    f1 = stof(inp.substr(0, loc));
+    f2 = stof(inp.substr(loc+1));
     return Point(f1,f2);
   }
+  return Point();
 }
 
 int main(int argc, char const *argv[]) {
@@ -26,14 +29,15 @@ int main(int argc, char const *argv[]) {
   string filePath;
   cout << "Enter input file path: ";
   getline(cin, filePath);
-  inputFile.open(filePath.c_str(),ios::in);
+  inputFile.open(filePath,ios::in);
   string lineinput;
   int total_points = 0;
 
+  // First line gives number of points in input
   if(inputFile.is_open())
   {
-      getline(inputFile,lineinput);
-      total_points = atoi(lineinput.c_str());
+      getline(inputFile, lineinput);
+      total_points = stoi(lineinput);
   }
 
   Point inp[total_points];
@@ -42,7 +46,7 @@ int main(int argc, char const *argv[]) {
   {
     getline(inputFile,lineinput);
     inp[i] = parsePoint(lineinput);
-    // index needed only for graham
+    // Index needed only for Graham
     inp[i].index = i;
   }
   inputFile.close();
@@ -69,9 +73,11 @@ int main(int argc, char const *argv[]) {
 
   // Using Graham's Scan
   Node *root;
-  int points_on_hull = getHull(inp,total_points,&root);
-  if(points_on_hull==-1) return 0;
-
+  int points_on_hull = getHull(inp, total_points, &root);
+  if(points_on_hull==-1)
+  {
+    return 0;
+  }
   outputFile.open("output_graham.ch");
   outputFile << "CH" << endl;
   outputFile << total_points << " " << points_on_hull << endl;
@@ -79,10 +85,12 @@ int main(int argc, char const *argv[]) {
   for (int i = 0; i < total_points; i++) {
       outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
   }
-  for (int i = 0; i < points_on_hull; i++) {
+  for (int i = 0; i < points_on_hull; i++)
+  {
       Point temp = pop(&root);
       outputFile << temp.index << " ";
   }
   outputFile << endl;
+  outputFile.close();
   // Graham's end
 }

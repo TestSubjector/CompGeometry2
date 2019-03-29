@@ -24,13 +24,15 @@ int getLeftmostPoint(Point p[], int n)
   int index_ref = 0;
   for (int i = 1; i < n; i++)
   {
-    if(p[i].x < p[index_ref].x){ index_ref = i;}
+    if(p[i].x < p[index_ref].x)
+    {
+      index_ref = i;
+    }
     else if(p[i].x == p[index_ref].x)
     {
       if(p[i].y < p[index_ref].y){ index_ref = i;}
     }
   }
-
   return index_ref;
 }
 
@@ -47,7 +49,10 @@ int removeThetaCollinear(PolarPoint inp[],int n,PolarPoint out[])
   out[newlen++] = inp[0]; //maintaining origin first
   for(int i = 1; i < n-1 ; i++)
   {
-    if(compareTheta(inp[i],inp[i+1])==0) continue;
+    if(compareTheta(inp[i],inp[i+1]) == 0)
+    {
+      continue;
+    }
     else
     {
       out[newlen++] = inp[i];
@@ -87,10 +92,8 @@ void sortPoints(PolarPoint inp[], int n)
           swap(i,i+1,inp);
         }
       }
-
     }
   }
-
 }
 
 /**
@@ -104,31 +107,34 @@ int computeHull(Point inp[],int n,Node **root)
 {
     int size = 0;
     //Add the origin and next point to the Hull
-    push(inp[0],root);
-    size++;
-    push(inp[1],root);
-    size++;
+    push(inp[size++], root); // 0->1
+    push(inp[size++], root); // 1->2
+
     for(int i = 2; i < n-1; i++ )
     {
-        cout << "(" << peek(root).x << " " << peek(root).y << ") ";
-        cout << "(" << inp[i].x << " " << inp[i].y << ") ";
-        cout << "(" << inp[i+1].x << " " << inp[i+1].y << ") ";
-        cout << nextDirection( peek(root),inp[i],inp[i+1]) << endl;
-        if(nextDirection( peek(root),inp[i],inp[i+1]) < 0) {
-            //This means right turn. If collinear point not to be taken, make <=
+        // cout << "(" << peek(root).x << " " << peek(root).y << ") ";
+        // cout << "(" << inp[i].x << " " << inp[i].y << ") ";
+        // cout << "(" << inp[i+1].x << " " << inp[i+1].y << ") ";
+        // cout << nextDirection(peek(root),inp[i],inp[i+1]) << endl;
+        if(nextDirection(peek(root),inp[i],inp[i+1]) < 0)
+        {
+            //The code below running means occurence of a right turn. If collinear point not to be taken, make <=
             Point popped = pop(root);
             size--;
-            while (nextDirection(popped,peek(root),inp[i+1]) >= 0 && !isEmpty(*root)) {
-                cout << "while: popped" <<endl;
+            // Keep popping till left turn arises
+            while (nextDirection(popped, peek(root), inp[i+1]) >= 0 && !isEmpty(*root))
+            {
+                // cout << "while: popped" <<endl;
                 popped = pop(root);
                 size--;
             }
             push(popped,root);
             size++;
         }
-        else {
+        else
+        {
             push(inp[i],root);
-            cout << "pushed" << endl;
+            // cout << "pushed" << endl;
             size++;
         }
     }
@@ -140,34 +146,39 @@ int computeHull(Point inp[],int n,Node **root)
 /**
  * The single function that needs to be called in order to get the vertices of the convex hull using Graham's Scan algo
  * @param input  Input array of Points
- * @param len    length of array
- * @param root Stack root node to which vertices will be pushed
- * @return      number of points on the hull
+ * @param len    Length of array
+ * @param root   Stack root node to which vertices will be pushed
+ * @return       Number of points on the hull
  */
 int getHull(Point input[],int len,Node **root)
 {
+  // Get the leftmost point
   int ind = getLeftmostPoint(input,len);
   Point origin = input[ind];
   PolarPoint* input_pol= new PolarPoint[len];
+
   for(int i = 0; i < len; i++)
   {
       input_pol[i] = convertToPolar(input[i],origin);
   }
-  // if an array is defined as <type>* <arrayname> = new <type>[len] (Basically using the new operator), then the delete [] <arrayName> method can be safely used
-  // the arrays of form <type> <arrayName>[len] are called statically allocated arrays. Their memory cannot be freed
+  // If an array is defined as <type>* <arrayname> = new <type>[len] (Basically using the new operator), then the delete [] <arrayName> method can be safely used
+  // The arrays of form <type> <arrayName>[len] are called statically allocated arrays. Their memory cannot be freed
 
   // printf("%s\n","Printing unsorted polar array" );
   // printArray(input_pol,len);
 
-  swap(0,ind,input_pol); //origin is now at index0 in input_pol
-  sortPoints(input_pol+1,len-1); // input_pol[1:]
+  swap(0, ind, input_pol); // Origin is now at index0 in input_pol
+  sortPoints(input_pol+ 1, len-1); // input_pol[1:]
   // printf("%s\n","Printing sorted polar array" );
   // printArray(input_pol,len);
-  for (int i = 0; i < len; i++) {
+  for (int i = 0; i < len; i++)
+  {
       PolarPoint temp = input_pol[i];
   }
+
+  // Remove Collinear Points
   PolarPoint* intermediate_pol = new PolarPoint[len];
-  int newlen=0;
+  int newlen = 0;
   newlen = removeThetaCollinear(input_pol,len,intermediate_pol);
   // printf("%s\n","Printing intermediate polar array");
   // printArray(intermediate_pol,newlen);
@@ -184,6 +195,7 @@ int getHull(Point input[],int len,Node **root)
     intermediate_cart[i] = input[intermediate_pol[i].index];
   }
   delete [] intermediate_pol;
+  delete [] input_pol;
 
   // printf("%s\n","Printing intermediate cart array");
   // printArray(intermediate_cart,newlen);
