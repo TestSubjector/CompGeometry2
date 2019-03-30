@@ -173,16 +173,15 @@ void swap_all(Point inp[])
  * @param inp Point array
  * @return Point array with all elements having flipped sign compared to the input
  */
-Point* flip_all(Point inp[])
+void flip_all(Point inp[], Point out[])
 {
     int size = *(&inp + 1) - inp;
     int i = 0;
-	Point out[size];
     for(i=0; i< size; i++)
     {
         out[i].x = -inp[i].x;
 		out[i].y = -inp[i].y;
 		out[i].index = inp[i].index;
     }
-	return out;
+	return;
 }

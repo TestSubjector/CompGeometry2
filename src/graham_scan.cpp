@@ -1,5 +1,5 @@
 #include "graham_scan.h"
-using namespace std;
+
 /**
 * Computes whether the next point is to the left or to the right or in the same direction.
  * @param  p The previous point
@@ -30,7 +30,10 @@ int getLeftmostPoint(Point p[], int n)
     }
     else if(p[i].x == p[index_ref].x)
     {
-      if(p[i].y < p[index_ref].y){ index_ref = i;}
+      if(p[i].y < p[index_ref].y)
+      {
+        index_ref = i;
+      }
     }
   }
   return index_ref;

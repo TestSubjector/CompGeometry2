@@ -54,7 +54,7 @@ int main(int argc, char const *argv[]) {
 
   // Using KirkPatrickSeidel
   int result[total_points];
-  int points_on_hull = kps_hull_compute(inp,result,total_points);
+  int points_on_hull = kpsHullCompute(inp,result,total_points);
   outputFile.open("output/output_kps.ch");
   outputFile << "CH" << endl;
   outputFile << total_points << " " << points_on_hull << endl;
