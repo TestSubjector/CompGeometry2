@@ -27,7 +27,7 @@ int orient(Point p1,Point p2,Point p3)
 int hull_compute(Point input[],int result[],int N)
 {
 	int j=0;
-	double small1=input[0].x,small2=input[0].y;
+	double small1=input[0].x, small2=input[0].y;
 	int small_add=0;
 
 	// Find leftmost element

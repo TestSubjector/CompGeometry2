@@ -151,3 +151,38 @@ void swap(int i,int j, Point inp[])
 	inp[j] = temp;
 	return;
 }
+
+/**
+ * Reverses the elements in the inp array passed
+ * @param inp Point array
+ */
+void swap_all(Point inp[])
+{
+    int size = *(&inp + 1) - inp;
+    int i = 0;
+    Point temp;
+    for(i=0; i< size/2; i++)
+    {
+        swap(i, size-1-i, inp);
+    }
+	return;
+}
+
+/**
+ * Changes the sign of all elements in the inp array passed
+ * @param inp Point array
+ * @return Point array with all elements having flipped sign compared to the input
+ */
+Point* flip_all(Point inp[])
+{
+    int size = *(&inp + 1) - inp;
+    int i = 0;
+	Point out[size];
+    for(i=0; i< size; i++)
+    {
+        out[i].x = -inp[i].x;
+		out[i].y = -inp[i].y;
+		out[i].index = inp[i].index;
+    }
+	return out;
+}

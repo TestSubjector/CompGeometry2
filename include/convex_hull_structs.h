@@ -46,5 +46,7 @@ void printArray(PolarPoint p[], int n);
 void printArray(Point p[], int n);
 void swap(int i,int j, PolarPoint inp[]);
 void swap(int i,int j, Point inp[]);
+void swap_all(Point inp[]);
+Point* flip_all(Point inp[]);
 
 #endif

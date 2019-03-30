@@ -5,6 +5,7 @@
 #include <fstream>
 #include "graham_scan.h"
 #include "jmarch.h"
+#include "kirkpatrickseidel.h"
 
 using namespace std;
 // This assumes only one delimiter per string
@@ -51,14 +52,13 @@ int main(int argc, char const *argv[]) {
   }
   inputFile.close();
 
-  // Using  JMarch
+  // Using KirkPatrickSeidel
   int result[total_points];
-  int points_on_hull = hull_compute(inp,result,total_points);
-  // cout << points_on_hull << endl;
-  outputFile.open("output/output_jarvis.ch");
+  int points_on_hull = kps_hull_compute(inp,result,total_points);
+  outputFile.open("output/output_kps.ch");
   outputFile << "CH" << endl;
   outputFile << total_points << " " << points_on_hull << endl;
-  for(int i=0;i < total_points; i++)
+    for(int i=0;i < total_points; i++)
   {
       outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
   }
@@ -68,6 +68,26 @@ int main(int argc, char const *argv[]) {
   }
   outputFile << endl;
   outputFile.close();
+  // KirkPatrickSeidel end
+
+
+  // Using  JMarch
+  // int result[total_points];
+  // int points_on_hull = hull_compute(inp,result,total_points);
+  // // cout << points_on_hull << endl;
+  // outputFile.open("output/output_jarvis.ch");
+  // outputFile << "CH" << endl;
+  // outputFile << total_points << " " << points_on_hull << endl;
+  // for(int i=0;i < total_points; i++)
+  // {
+  //     outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
+  // }
+  // for(int i=0;i < points_on_hull;i++)
+  // {
+  //     outputFile<<result[i]<<" ";
+  // }
+  // outputFile << endl;
+  // outputFile.close();
   // JMarch end
 
 
