@@ -98,11 +98,17 @@ int quickselect(int reqIndex, int l, int u, Point sample[])
     return -1;
 }
 
+void bridgeFinder(Point upperPoints[], int upperLine, int size)
+{
+    return;
+}
+
 void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int lesserN)
 {
     if (minxIndex == maxIndex)
     {
         result[pointTracker] = minxIndex;
+        pointTracker++;
     }
     Point temp[lesserN];
     copyInitialization(temp, upperPoints, lesserN);
@@ -111,7 +117,7 @@ void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int
     Point min_right = temp[quickselect(lesserN/2, 0, lesserN - 1, temp)];
     // cout<<max_left.x<<" "<< max_left.y<<endl;
     // cout<<min_right.x<<" "<<min_right.y<<endl;
-
+    // bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
 }
 
 void upperHull(Point input[],int result[], int N)

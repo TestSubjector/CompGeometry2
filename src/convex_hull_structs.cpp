@@ -185,3 +185,14 @@ void flip_all(Point inp[], Point out[])
     }
 	return;
 }
+
+void sortPair(Pairing z)
+{
+	if(z.p.x > z.q.x)
+	{
+		Point temp = z.p;
+		z.p = z.q;
+		z.q = z.p;
+	}
+	return;
+}

@@ -33,6 +33,13 @@ struct Node
   Node* next;
 };
 
+struct Pairing
+{
+  Point p;
+  Point q;
+  Pairing(Point a1, Point a2) : p(a1), q(a2) {}
+};
+
 PolarPoint convertToPolar(Point p, Point origin);
 int compareTheta(PolarPoint p, PolarPoint q);
 
@@ -48,5 +55,7 @@ void swap(int i,int j, PolarPoint inp[]);
 void swap(int i,int j, Point inp[]);
 void swap_all(Point inp[]);
 void flip_all(Point inp[], Point out[]);
+
+void sortPair(Pairing z);
 
 #endif
