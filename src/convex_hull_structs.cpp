@@ -153,6 +153,20 @@ void swap(int i,int j, Point inp[])
 }
 
 /**
+ * Swaps the elements i and j in the inp array passed
+ * @param i   integer index
+ * @param j   integer index
+ * @param inp Point array
+ */
+void swap(int i,int j, double inp[])
+{
+	double temp = inp[i];
+	inp[i] = inp[j];
+	inp[j] = temp;
+	return;
+}
+
+/**
  * Reverses the elements in the inp array passed
  * @param inp Point array
  */

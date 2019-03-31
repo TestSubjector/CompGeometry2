@@ -3,6 +3,7 @@ CXX ?= g++
 # path #
 SRC_PATH = src
 BUILD_PATH = build
+DEP_PATH = deps
 BIN_PATH = $(BUILD_PATH)/bin
 
 # executable #

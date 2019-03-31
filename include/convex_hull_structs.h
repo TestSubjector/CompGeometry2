@@ -37,7 +37,9 @@ struct Pairing
 {
   Point p;
   Point q;
-  Pairing(Point a1, Point a2) : p(a1), q(a2) {}
+  int redact;
+  Pairing(Point a1, Point a2) : p(a1), q(a2), redact(0) {}
+  Pairing(): redact(0){};
 };
 
 PolarPoint convertToPolar(Point p, Point origin);
@@ -53,9 +55,14 @@ void printArray(PolarPoint p[], int n);
 void printArray(Point p[], int n);
 void swap(int i,int j, PolarPoint inp[]);
 void swap(int i,int j, Point inp[]);
+void swap(int i,int j, double inp[]);
 void swap_all(Point inp[]);
 void flip_all(Point inp[], Point out[]);
 
 void sortPair(Pairing z);
+int partitioning(int l, int u, Point sample[]);
+int quickselect(int reqIndex, int l, int u, Point sample[]);
+int partitioning(int l, int u, double sample[]);
+int quickselect(int reqIndex, int l, int u, double sample[]);
 
 #endif

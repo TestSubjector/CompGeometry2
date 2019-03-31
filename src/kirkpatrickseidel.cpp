@@ -13,6 +13,16 @@ void safeInitialization(int arr[], int size)
     return;
 }
 
+void safeInitialization(double arr[], int size)
+{
+    int i = 0;
+    for(i = 0; i < size; i++)
+    {
+        arr[i] = -1;
+    }
+    return;
+}
+
 void copyInitialization(Point target[], Point base[], int size)
 {
     int i = 0;
@@ -94,13 +104,126 @@ int quickselect(int reqIndex, int l, int u, Point sample[])
         }
         return quickselect(reqIndex, l, partitionIndex - 1, sample);
     }
-    cout<< "WARNING : Illegal bounds for quickselect"<< endl;
+    cout<< "WARNING : Illegal bounds for quickselect1"<< endl;
     return -1;
 }
 
-void bridgeFinder(Point upperPoints[], int upperLine, int size)
+int partitioning(int l, int u, double sample[])
 {
-    return;
+    double pivot = sample[u];
+    int i = l-1, j;
+    for(j = l; j < u; j++)
+    {
+        if(sample[j] <= pivot)
+        {
+            i++;
+            swap(i, j, sample);
+        }
+    }
+    i++;
+    swap(i, u, sample);
+    return i;
+}
+
+int quickselect(int reqIndex, int l, int u, double sample[])
+{
+    if(l<=u) // Safety check
+    {
+        int partitionIndex = partitioning(l,u,sample);
+        if (partitionIndex == reqIndex - 1)
+        {
+            return partitionIndex;
+        }
+        else if(partitionIndex < reqIndex - 1)
+        {
+            return quickselect(reqIndex, partitionIndex + 1, u, sample);
+        }
+        return quickselect(reqIndex, l, partitionIndex - 1, sample);
+    }
+    cout<< "WARNING : Illegal bounds for quickselect2"<< endl;
+    cout<<l<<" "<<u<<endl;
+    return -1;
+}
+
+Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
+{
+    Point candidates[size];
+    int update = 0;
+    if (size == 2)
+    {
+        Pairing tempPair = Pairing(upperPoints[0], upperPoints[1]);
+        sortPair(tempPair);
+        return tempPair;
+    }
+
+    int numPairs = 0;
+    if (size%2 == 1) // Add the left out element to pairings
+    {
+        candidates[update] = upperPoints[size-1];
+        update++;
+        numPairs = (size-1)/2;
+    }
+    else
+    {
+        numPairs = size/2;
+    }
+    int i = 0;
+    Pairing pairs[numPairs];
+    for(i = 0; i < size-1; i+=2)
+    {
+        pairs[i/2] = Pairing(upperPoints[i], upperPoints[i+1]);
+        // cout<<"Points "<<pairs[i/2].p.x<<" "<<pairs[i/2].p.y<<" "<<pairs[i/2].q.x<<" "<<pairs[i/2].q.y<<endl;
+        sortPair(pairs[i/2]);
+        // cout<<"Points "<<pairs[i/2].p.x<<" "<<pairs[i/2].p.y<<" "<<pairs[i/2].q.x<<" "<<pairs[i/2].q.y<<endl;
+    }
+
+    // cout<<"Size is"<<size<<endl;
+    // cout<<"NumPairs is"<<numPairs<<endl;
+
+    double slopes[numPairs];
+    safeInitialization(slopes, numPairs);
+    int slopeUpdate = 0;
+    for(i = 0; i < numPairs; i+=1)
+    {
+        Pairing temp = pairs[i];
+        if(temp.p.x == temp.q.x)
+        {
+            pairs[i/2].redact = 1; // Remove from consideration
+            if(temp.p.y > temp.q.y)
+            {
+                candidates[update] = temp.p;
+                update++;
+            }
+            else
+            {
+                candidates[update] = temp.q;
+                update++;
+            }
+        }
+        else
+        {
+            // cout<<"Points2 "<<pairs[i].p.x<<" "<<pairs[i].p.y<<" "<<pairs[i].q.x<<" "<<pairs[i].q.y<<endl;
+            slopes[slopeUpdate] = ((temp.p.y - temp.q.y) / (temp.p.x - temp.q.y));
+            // cout<<slopes[slopeUpdate]<<endl;
+            slopeUpdate++;
+        }
+    }
+
+    // cout<<"SlopeUpdate is"<<slopeUpdate<<endl;
+    // cout<<slopes[0]<<" "<<slopes[1]<<endl;
+
+    int medianIndex;
+    if(slopeUpdate%2 == 0)
+    {
+        medianIndex = slopeUpdate/2;
+    }
+    else
+    {
+        medianIndex = slopeUpdate/2 - 1;
+    }
+
+    // int medianSlope = quickselect(medianIndex, 0, slopeUpdate, slopes);
+    // cout<< "MS"<<medianSlope<<endl;
 }
 
 void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int lesserN)
@@ -117,7 +240,7 @@ void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int
     Point min_right = temp[quickselect(lesserN/2, 0, lesserN - 1, temp)];
     // cout<<max_left.x<<" "<< max_left.y<<endl;
     // cout<<min_right.x<<" "<<min_right.y<<endl;
-    // bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
+    bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
 }
 
 void upperHull(Point input[],int result[], int N)
