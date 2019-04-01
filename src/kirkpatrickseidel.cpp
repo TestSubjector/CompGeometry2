@@ -43,8 +43,8 @@ void copyInitialization(double target[], double base[], int size)
 
 int kpsGetLeftMostPoint(Point p[], int N)
 {
-  int index_ref = 0;
-  for (int i = 1; i < N; i++)
+  int index_ref = 0, i = 0;
+  for (i = 1; i < N; i++)
   {
     if(p[i].x < p[index_ref].x)
     {
@@ -63,8 +63,8 @@ int kpsGetLeftMostPoint(Point p[], int N)
 
 int kpsGetRightMostPoint(Point p[], int N)
 {
-  int index_ref = 0;
-  for (int i = 1; i < N; i++)
+  int index_ref = 0, i = 0;
+  for (i = 1; i < N; i++)
   {
     if(p[i].x > p[index_ref].x)
     {
@@ -469,11 +469,12 @@ void upperHull(Point input[],Point result[], int N)
 
 int kpsHullCompute(Point input[],Point result[],int N)
 {
+    int i = 0;
     Point upper[N];
     copyInitialization(upper, input, N);
     Point lower[N];
-    flip_all(input, lower);
-
+    flipAll(input, lower, N);
+    // cout<<"wababa"<<lower[0].x<<endl;
     Point resultUpper[N];
     int resultUpperIndex = 0;
     Point resultLower[N];
@@ -481,10 +482,27 @@ int kpsHullCompute(Point input[],Point result[],int N)
 
     upperHull(upper, resultUpper, N);
     resultUpperIndex = pointTracker;
-    // upperHull(lower, resultLower, N);
-    for(int i=0;i< resultUpperIndex;i++)
+    for(i=0;i< resultUpperIndex;i++)
 	{
         result[i] = resultUpper[i];
     }
+
+    pointTracker = 0;
+    // cout<<"wababa"<<lower[0].x<<endl;
+    upperHull(lower, resultLower, N);
+    resultLowerIndex = pointTracker;
+    cout<<resultLowerIndex<<endl;
+    // cout<<resultUpper[0].x<<endl;
+    flipSelf(resultLower, resultLowerIndex);
+    // cout<<resultUpper[0].x<<endl;
+    // for(i = resultUpperIndex;i<resultUpperIndex + resultLowerIndex;i++)
+	// {
+    //     result[i] = resultUpper[i];
+    // }
+    for(i = 0; i < resultLowerIndex; i++)
+    {
+        cout<<resultLower[i].x<<","<<resultLower[i].y<<endl;
+    }
+
     return resultUpperIndex;
 }

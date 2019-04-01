@@ -57,7 +57,8 @@ void swap(int i,int j, PolarPoint inp[]);
 void swap(int i,int j, Point inp[]);
 void swap(int i,int j, double inp[]);
 void swap_all(Point inp[]);
-void flip_all(Point inp[], Point out[]);
+void flipSelf(Point inp[], int size);
+void flipAll(Point inp[], Point out[], int size);
 
 Pairing sortPair(Pairing z);
 int partitioning(int l, int u, Point sample[]);
