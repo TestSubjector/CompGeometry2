@@ -191,11 +191,11 @@ void flip_all(Point inp[], Point out[])
 {
     int size = *(&inp + 1) - inp;
     int i = 0;
-    for(i=0; i< size; i++)
+    for(i=0; i < size; i++)
     {
         out[i].x = -inp[i].x;
 		out[i].y = -inp[i].y;
-		out[i].index = inp[i].index;
+		// out[i].index = inp[i].index;
     }
 	return;
 }

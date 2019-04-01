@@ -472,11 +472,19 @@ int kpsHullCompute(Point input[],Point result[],int N)
     Point upper[N];
     copyInitialization(upper, input, N);
     Point lower[N];
-    copyInitialization(lower, input, N);
-    upperHull(input, result, N);
-    // for(int i=0;i<N;i++)
-	// {
-    //     result[i] = i;
-    // }
-    return pointTracker;
+    flip_all(input, lower);
+
+    Point resultUpper[N];
+    int resultUpperIndex = 0;
+    Point resultLower[N];
+    int resultLowerIndex = 0;
+
+    upperHull(upper, resultUpper, N);
+    resultUpperIndex = pointTracker;
+    // upperHull(lower, resultLower, N);
+    for(int i=0;i< resultUpperIndex;i++)
+	{
+        result[i] = resultUpper[i];
+    }
+    return resultUpperIndex;
 }
