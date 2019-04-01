@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
   inputFile.close();
 
   // Using KirkPatrickSeidel
-  int result[total_points];
+  Point result[total_points];
   int points_on_hull = kpsHullCompute(inp,result,total_points);
   outputFile.open("output/output_kps.ch");
   outputFile << "CH" << endl;
@@ -62,10 +62,10 @@ int main(int argc, char const *argv[]) {
   {
       outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
   }
-  for(int i=0;i < points_on_hull;i++)
-  {
-      outputFile<<result[i]<<" ";
-  }
+  // for(int i=0;i < points_on_hull;i++)
+  // {
+  //     outputFile<<result[i]<<" ";
+  // }
   outputFile << endl;
   outputFile.close();
   // KirkPatrickSeidel end

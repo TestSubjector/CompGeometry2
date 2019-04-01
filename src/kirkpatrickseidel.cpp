@@ -95,25 +95,43 @@ int partitioning(int l, int u, Point sample[])
     }
     i++;
     swap(i, u, sample);
+    cout<<"Aye Part "<<i<<endl;
     return i;
 }
 
 int quickselect(int reqIndex, int l, int u, Point sample[])
 {
+    // if(reqIndex < 0)
+    // {
+    //     cout<<"Illegal reqIndex"<<endl;
+    //     exit(0);
+    // }
+    // if(reqIndex == 0)
+    // {
+    //     reqIndex += 1;
+    // }
+    cout<<"Partioning "<<reqIndex<<" "<<l<<" "<<u<<endl;
     if(l<=u) // Safety check
     {
+
         int partitionIndex = partitioning(l,u,sample);
+        cout<<"PartIndex "<<partitionIndex<<endl;
         if (partitionIndex == reqIndex - 1)
         {
+            cout<<"Terminate"<<endl;
             return partitionIndex;
         }
         else if(partitionIndex < reqIndex - 1)
         {
+            cout<<"Upper"<<endl;
             return quickselect(reqIndex, partitionIndex + 1, u, sample);
         }
+        cout<<"Lower"<<endl;
         return quickselect(reqIndex, l, partitionIndex - 1, sample);
     }
     cout<< "WARNING : Illegal bounds for quickselect1"<< endl;
+    cout<<reqIndex<<" "<<l<<" "<<u<<endl;
+    exit(0);
     return -1;
 }
 
@@ -136,6 +154,11 @@ int partitioning(int l, int u, double sample[])
 
 int quickselect(int reqIndex, int l, int u, double sample[])
 {
+    // if(reqIndex < 0)
+    // {
+    //     cout<<"Illegal reqIndex"<<endl;
+    //     exit(0);
+    // }
     if(l<=u) // Safety check
     {
         int partitionIndex = partitioning(l,u,sample);
@@ -150,7 +173,7 @@ int quickselect(int reqIndex, int l, int u, double sample[])
         return quickselect(reqIndex, l, partitionIndex - 1, sample);
     }
     cout<< "WARNING : Illegal bounds for quickselect2"<< endl;
-    cout<<l<<" "<<u<<endl;
+    cout<<reqIndex<<" "<<l<<" "<<u<<endl;
     return -1;
 }
 
@@ -161,7 +184,12 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     if (size == 2)
     {
         Pairing tempPair = Pairing(upperPoints[0], upperPoints[1]);
-        sortPair(tempPair);
+        cout<<"Sorting Start"<<endl;
+        cout<<tempPair.p.x<<endl;
+        // cout<<tempPair.q.x;
+        tempPair = sortPair(tempPair);
+        cout<<tempPair.p.x<<endl;
+        cout<<"Sorting Done"<<endl;
         return tempPair;
     }
 
@@ -182,7 +210,7 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     {
         pairs[i/2] = Pairing(upperPoints[i], upperPoints[i+1]);
         // cout<<"Points "<<pairs[i/2].p.x<<" "<<pairs[i/2].p.y<<" "<<pairs[i/2].q.x<<" "<<pairs[i/2].q.y<<endl;
-        sortPair(pairs[i/2]);
+        pairs[i/2] = sortPair(pairs[i/2]);
         // cout<<"Points "<<pairs[i/2].p.x<<" "<<pairs[i/2].p.y<<" "<<pairs[i/2].q.x<<" "<<pairs[i/2].q.y<<endl;
     }
 
@@ -228,12 +256,14 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     }
     else
     {
-        medianIndex = slopeUpdate/2 - 1;
+        medianIndex = slopeUpdate - 1 /2;
     }
 
     double temp[numPairs];
     copyInitialization(temp, slopes, slopeUpdate);
-    double medianSlope = slopes[quickselect(medianIndex, 0, slopeUpdate, temp)];
+    // cout<<"Slopeupdate is"<<slopeUpdate<<endl;
+    double medianSlope = slopes[quickselect(medianIndex, 0, slopeUpdate -1, temp)];
+    // cout<<"Slopeupdate is"<<slopeUpdate<<endl;
     // cout<< "MS"<<medianSlope<<" "<<slopes[0]<<endl;
 
     Pairing small[slopeUpdate], equal[slopeUpdate], large[slopeUpdate];
@@ -260,7 +290,6 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
             {
                 large[largeCount++] = pairs[i];
             }
-
         }
     }
     // cout<<smallCount<<" "<<equalCount<<" "<<largeCount<<endl;
@@ -293,26 +322,126 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     // cout<<maxSlope<<endl;
     // cout<<leftLargeSlopePoint.x<<" "<<leftLargeSlopePoint.y<<endl;
     // cout<<rightLargeSlopePoint.x<<" "<<rightLargeSlopePoint.y<<endl;
+    if(leftLargeSlopePoint.x <= upperLine && rightLargeSlopePoint.x > upperLine)
+    {
+        Pairing tempPair = Pairing(leftLargeSlopePoint, rightLargeSlopePoint);
+        tempPair = sortPair(tempPair);
+        return tempPair;
+    }
+    if(rightLargeSlopePoint.x <= upperLine)
+    {
+        // Small
+        for(i=0; i< smallCount;i++)
+        {
+            candidates[update++] = small[i].p;
+            candidates[update++] = small[i].q;
+        }
+        // Medium
+        for(i = 0; i < equalCount; i++)
+        {
+            candidates[update++] = equal[i].q;
+        }
+        //Large
+        for(i = 0; i < largeCount; i++)
+        {
+            candidates[update++] = large[i].q;
+        }
+    }
+    if(leftLargeSlopePoint.x > upperLine)
+    {
+        // Small
+        for(i=0; i< smallCount; i++)
+        {
+            candidates[update++] = small[i].p;
+        }
+        // Medium
+        for(i = 0; i < equalCount; i++)
+        {
+            candidates[update++] = equal[i].p;
+        }
+        //Large
+        for(i = 0; i < largeCount; i++)
+        {
+            candidates[update++] = large[i].p;
+            candidates[update++] = large[i].q;
+        }
+    }
+    // cout<<update<<endl;
+    // cout<<upperLine<<endl;
+    return bridgeFinder(candidates, upperLine, update);
 }
 
-void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int lesserN)
+void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int lesserN)
 {
-    if (minxIndex == maxIndex)
+    if(lesserN == 3)
     {
-        result[pointTracker] = minxIndex;
+        cout<<endl;
+        cout<<upperPoints[0].x<<" "<<upperPoints[0].y<<endl;
+        cout<<upperPoints[1].x<<" "<<upperPoints[1].y<<endl;
+        cout<<upperPoints[2].x<<" "<<upperPoints[2].y<<endl;
+        cout<<endl;
+    }
+    int i = 0;
+    if (minx.x == maxx.x && minx.y == maxx.y)
+    {
+        result[pointTracker] = minx;
         pointTracker++;
+        return;
     }
     Point temp[lesserN];
     copyInitialization(temp, upperPoints, lesserN);
-    Point max_left = temp[quickselect(lesserN/2 - 1, 0, lesserN - 1, temp)];
+    Point max_left = temp[quickselect((lesserN)/2, 0, lesserN - 1, temp)];
+    cout<<"Max L"<<max_left.x<<" "<< max_left.y<<endl;
     copyInitialization(temp, upperPoints, lesserN);
-    Point min_right = temp[quickselect(lesserN/2, 0, lesserN - 1, temp)];
-    // cout<<max_left.x<<" "<< max_left.y<<endl;
-    // cout<<min_right.x<<" "<<min_right.y<<endl;
-    bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
+    Point min_right = temp[quickselect(lesserN/2 + 1, 0, lesserN - 1, temp)];
+    cout<<"Min R"<<min_right.x<<" "<<min_right.y<<endl;
+    Pairing leftright = bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
+    cout<<"Smaller left"<<leftright.p.x<<" "<<leftright.p.y<<endl;
+    cout<<"Greater right"<<leftright.q.x<<" "<<leftright.q.y<<endl;
+    Point leftPoints[lesserN];
+    int leftPointsIndex = 0;
+    for(i=0; i < lesserN; i++)
+    {
+        if((upperPoints[i].x < leftright.p.x) || (upperPoints[i].x == leftright.p.x && upperPoints[i].y == leftright.p.y))
+        {
+            leftPoints[leftPointsIndex++] = upperPoints[i];
+        }
+    }
+    Point rightPoints[lesserN];
+    int rightPointsIndex = 0;
+    for(i=0; i < lesserN; i++)
+    {
+        if((upperPoints[i].x > leftright.q.x) || (upperPoints[i].x == leftright.q.x && upperPoints[i].y == leftright.q.y))
+        {
+            rightPoints[rightPointsIndex++] = upperPoints[i];
+        }
+    }
+    // int leftIndex;
+    // for(i=0; i < leftPointsIndex; i++)
+    // {
+    //     if(leftPoints[i].x == leftright.p.x && leftPoints[i].y == leftright.p.y)
+    //     {
+    //         leftIndex = i;
+    //     }
+    // }
+    // int rightIndex;
+    // for(i=0; i < rightPointsIndex; i++)
+    // {
+    //     if((rightPoints[i].x == leftright.q.x && rightPoints[i].y == leftright.q.y))
+    //     {
+    //         rightIndex = i;
+    //     }
+    // }
+    // cout<<"***"<<leftPointsIndex<<endl;
+    // connect(minx, leftright.p, leftPoints, result, leftPointsIndex);
+    cout<<endl;
+    cout<<"***"<<rightPointsIndex<<endl;
+    cout<<"R is"<<leftright.q.x<<" "<<leftright.q.y<<endl;
+    cout<<"Max is"<<maxx.x<<" "<<maxx.y<<endl;
+    connect(leftright.q, maxx, rightPoints, result, rightPointsIndex);
 }
 
-void upperHull(Point input[],int result[], int N)
+void upperHull(Point input[],Point result[], int N)
 {
     // cout<<kpsGetLeftMostPoint(input, N)<<endl;
     // cout<<kpsGetRightMostPoint(input, N)<<endl;
@@ -335,20 +464,20 @@ void upperHull(Point input[],int result[], int N)
         }
     }
     // printArray(upperPoints, lesserN);
-    connect(minxIndex, maxxIndex, upperPoints, result, lesserN);
+    connect(input[minxIndex], input[maxxIndex], upperPoints, result, lesserN);
     return;
 }
 
-int kpsHullCompute(Point input[],int result[],int N)
+int kpsHullCompute(Point input[],Point result[],int N)
 {
     Point upper[N];
     copyInitialization(upper, input, N);
     Point lower[N];
     copyInitialization(lower, input, N);
     upperHull(input, result, N);
-    for(int i=0;i<N;i++)
-	{
-        result[i] = i;
-    }
+    // for(int i=0;i<N;i++)
+	// {
+    //     result[i] = i;
+    // }
     return N;
 }

@@ -7,10 +7,10 @@
 
 extern int pointTracker;
 
-int kpsHullCompute(Point input[],int result[],int N);
+int kpsHullCompute(Point input[],Point result[],int N);
 
-void upperHull(Point input[],int result[], int N);
-void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int lesserN);
+void upperHull(Point input[],Point result[], int N);
+void connect(Point minxIndex, Point maxIndex, Point upperPoints[], Point result[], int lesserN);
 Pairing bridgeFinder(Point upperPoints[], int upperLine, int size);
 
 void safeInitialization(int arr[], int size);

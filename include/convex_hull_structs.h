@@ -59,7 +59,7 @@ void swap(int i,int j, double inp[]);
 void swap_all(Point inp[]);
 void flip_all(Point inp[], Point out[]);
 
-void sortPair(Pairing z);
+Pairing sortPair(Pairing z);
 int partitioning(int l, int u, Point sample[]);
 int quickselect(int reqIndex, int l, int u, Point sample[]);
 int partitioning(int l, int u, double sample[]);

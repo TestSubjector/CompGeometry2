@@ -200,13 +200,18 @@ void flip_all(Point inp[], Point out[])
 	return;
 }
 
-void sortPair(Pairing z)
+Pairing sortPair(Pairing z)
 {
 	if(z.p.x > z.q.x)
 	{
-		Point temp = z.p;
-		z.p = z.q;
-		z.q = z.p;
+		printf("Reached here\n");
+		Point temp;
+		temp.x = z.p.x;
+		temp.y = z.p.y;
+		z.p.x = z.q.x;
+		z.p.y = z.q.y;
+		z.q.x = temp.x;
+		z.q.y = temp.y;
 	}
-	return;
+	return z;
 }
