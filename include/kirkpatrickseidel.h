@@ -16,6 +16,7 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size);
 void safeInitialization(int arr[], int size);
 void safeInitialization(double arr[], int size);
 void copyInitialization(Point target[], Point base[], int size);
+void copyInitialization(double target[], double base[], int size);
 
 int kpsGetLeftMostPoint(Point p[], int N);
 int kpsGetRightMostPoint(Point p[], int N);

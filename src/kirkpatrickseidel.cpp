@@ -32,6 +32,15 @@ void copyInitialization(Point target[], Point base[], int size)
     }
 }
 
+void copyInitialization(double target[], double base[], int size)
+{
+    int i = 0;
+    for(i = 0; i < size; i++)
+    {
+        target[i] = base[i];
+    }
+}
+
 int kpsGetLeftMostPoint(Point p[], int N)
 {
   int index_ref = 0;
@@ -222,8 +231,45 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
         medianIndex = slopeUpdate/2 - 1;
     }
 
-    // int medianSlope = quickselect(medianIndex, 0, slopeUpdate, slopes);
-    // cout<< "MS"<<medianSlope<<endl;
+    double temp[numPairs];
+    copyInitialization(temp, slopes, slopeUpdate);
+    double medianSlope = slopes[quickselect(medianIndex, 0, slopeUpdate, temp)];
+    // cout<< "MS"<<medianSlope<<" "<<slopes[0]<<endl;
+
+    Pairing small[slopeUpdate], equal[slopeUpdate], large[slopeUpdate];
+    int smallCount=0, equalCount=0, largeCount=0;
+    int skip = 0;
+    for(i=0; i<numPairs;i++)
+    {
+        if(pairs[i].redact == 1)
+        {
+            skip++;
+        }
+        else
+        {
+            // Assign to small, equal and large
+            if(slopes[i - skip] < medianSlope)
+            {
+                small[smallCount++] = pairs[i];
+            }
+            else if(slopes[i-skip] == medianSlope)
+            {
+                equal[equalCount++] = pairs[i];
+            }
+            else
+            {
+                large[largeCount++] = pairs[i];
+            }
+
+        }
+    }
+    // cout<<smallCount<<" "<<equalCount<<" "<<largeCount<<endl;
+
+    // Get max slope
+    double maxSlope;
+    // for(i=0; i<size; i++)
+
+
 }
 
 void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int lesserN)
