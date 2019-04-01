@@ -95,7 +95,7 @@ int partitioning(int l, int u, Point sample[])
     }
     i++;
     swap(i, u, sample);
-    cout<<"Aye Part "<<i<<endl;
+    // cout<<"Aye Part "<<i<<endl;
     return i;
 }
 
@@ -110,23 +110,22 @@ int quickselect(int reqIndex, int l, int u, Point sample[])
     // {
     //     reqIndex += 1;
     // }
-    cout<<"Partioning "<<reqIndex<<" "<<l<<" "<<u<<endl;
+    // cout<<"Partioning "<<reqIndex<<" "<<l<<" "<<u<<endl;
     if(l<=u) // Safety check
     {
-
         int partitionIndex = partitioning(l,u,sample);
-        cout<<"PartIndex "<<partitionIndex<<endl;
+        // cout<<"PartIndex "<<partitionIndex<<endl;
         if (partitionIndex == reqIndex - 1)
         {
-            cout<<"Terminate"<<endl;
+            // cout<<"Terminate"<<endl;
             return partitionIndex;
         }
         else if(partitionIndex < reqIndex - 1)
         {
-            cout<<"Upper"<<endl;
+            // cout<<"Upper"<<endl;
             return quickselect(reqIndex, partitionIndex + 1, u, sample);
         }
-        cout<<"Lower"<<endl;
+        // cout<<"Lower"<<endl;
         return quickselect(reqIndex, l, partitionIndex - 1, sample);
     }
     cout<< "WARNING : Illegal bounds for quickselect1"<< endl;
@@ -184,12 +183,12 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     if (size == 2)
     {
         Pairing tempPair = Pairing(upperPoints[0], upperPoints[1]);
-        cout<<"Sorting Start"<<endl;
-        cout<<tempPair.p.x<<endl;
+        // cout<<"Sorting Start"<<endl;
+        // cout<<tempPair.p.x<<endl;
         // cout<<tempPair.q.x;
         tempPair = sortPair(tempPair);
-        cout<<tempPair.p.x<<endl;
-        cout<<"Sorting Done"<<endl;
+        // cout<<tempPair.p.x<<endl;
+        // cout<<"Sorting Done"<<endl;
         return tempPair;
     }
 
@@ -295,9 +294,9 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     // cout<<smallCount<<" "<<equalCount<<" "<<largeCount<<endl;
 
     // Get max slope
-    double maxSlope = 0;
-    Point leftLargeSlopePoint;
-    Point rightLargeSlopePoint;
+    double maxSlope = upperPoints[0].y - medianSlope * upperPoints[0].x;
+    Point leftLargeSlopePoint = upperPoints[0];
+    Point rightLargeSlopePoint = upperPoints[0];
     for(i=0; i<size; i++)
     {
         double newSlope  = upperPoints[i].y - medianSlope * upperPoints[i].x;
@@ -373,14 +372,14 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
 
 void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int lesserN)
 {
-    if(lesserN == 3)
-    {
-        cout<<endl;
-        cout<<upperPoints[0].x<<" "<<upperPoints[0].y<<endl;
-        cout<<upperPoints[1].x<<" "<<upperPoints[1].y<<endl;
-        cout<<upperPoints[2].x<<" "<<upperPoints[2].y<<endl;
-        cout<<endl;
-    }
+    // if(lesserN == 3)
+    // {
+    //     cout<<endl;
+    //     cout<<upperPoints[0].x<<" "<<upperPoints[0].y<<endl;
+    //     cout<<upperPoints[1].x<<" "<<upperPoints[1].y<<endl;
+    //     cout<<upperPoints[2].x<<" "<<upperPoints[2].y<<endl;
+    //     cout<<endl;
+    // }
     int i = 0;
     if (minx.x == maxx.x && minx.y == maxx.y)
     {
@@ -391,13 +390,13 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     Point temp[lesserN];
     copyInitialization(temp, upperPoints, lesserN);
     Point max_left = temp[quickselect((lesserN)/2, 0, lesserN - 1, temp)];
-    cout<<"Max L"<<max_left.x<<" "<< max_left.y<<endl;
+    // cout<<"Max L"<<max_left.x<<" "<< max_left.y<<endl;
     copyInitialization(temp, upperPoints, lesserN);
     Point min_right = temp[quickselect(lesserN/2 + 1, 0, lesserN - 1, temp)];
-    cout<<"Min R"<<min_right.x<<" "<<min_right.y<<endl;
+    // cout<<"Min R"<<min_right.x<<" "<<min_right.y<<endl;
     Pairing leftright = bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
-    cout<<"Smaller left"<<leftright.p.x<<" "<<leftright.p.y<<endl;
-    cout<<"Greater right"<<leftright.q.x<<" "<<leftright.q.y<<endl;
+    // cout<<"Smaller left"<<leftright.p.x<<" "<<leftright.p.y<<endl;
+    // cout<<"Greater right"<<leftright.q.x<<" "<<leftright.q.y<<endl;
     Point leftPoints[lesserN];
     int leftPointsIndex = 0;
     for(i=0; i < lesserN; i++)
@@ -432,12 +431,12 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     //         rightIndex = i;
     //     }
     // }
-    // cout<<"***"<<leftPointsIndex<<endl;
-    // connect(minx, leftright.p, leftPoints, result, leftPointsIndex);
-    cout<<endl;
-    cout<<"***"<<rightPointsIndex<<endl;
-    cout<<"R is"<<leftright.q.x<<" "<<leftright.q.y<<endl;
-    cout<<"Max is"<<maxx.x<<" "<<maxx.y<<endl;
+    // cout<<"**Left**"<<leftPointsIndex<<endl;
+    connect(minx, leftright.p, leftPoints, result, leftPointsIndex);
+    // cout<<endl;
+    // cout<<"**Right**"<<rightPointsIndex<<endl;
+    // cout<<"R is"<<leftright.q.x<<" "<<leftright.q.y<<endl;
+    // cout<<"Max is"<<maxx.x<<" "<<maxx.y<<endl;
     connect(leftright.q, maxx, rightPoints, result, rightPointsIndex);
 }
 
@@ -479,5 +478,5 @@ int kpsHullCompute(Point input[],Point result[],int N)
 	// {
     //     result[i] = i;
     // }
-    return N;
+    return pointTracker;
 }

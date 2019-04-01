@@ -143,6 +143,7 @@ int computeHull(Point inp[],int n,Node **root)
     }
     push(inp[n-1],root);
     size++;
+    delete inp;
     return size;
 }
 

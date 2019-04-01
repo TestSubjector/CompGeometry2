@@ -62,10 +62,10 @@ int main(int argc, char const *argv[]) {
   {
       outputFile << inp[i].x << " " << inp[i].y << " 0.0" << endl;
   }
-  // for(int i=0;i < points_on_hull;i++)
-  // {
-  //     outputFile<<result[i]<<" ";
-  // }
+  for(int i=0;i < points_on_hull;i++)
+  {
+      outputFile<<result[i].x<<","<<result[i].y<<" ";
+  }
   outputFile << endl;
   outputFile.close();
   // KirkPatrickSeidel end

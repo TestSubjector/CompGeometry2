@@ -204,7 +204,7 @@ Pairing sortPair(Pairing z)
 {
 	if(z.p.x > z.q.x)
 	{
-		printf("Reached here\n");
+		// printf("Reached here\n");
 		Point temp;
 		temp.x = z.p.x;
 		temp.y = z.p.y;
