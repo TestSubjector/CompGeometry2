@@ -266,10 +266,33 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     // cout<<smallCount<<" "<<equalCount<<" "<<largeCount<<endl;
 
     // Get max slope
-    double maxSlope;
-    // for(i=0; i<size; i++)
-
-
+    double maxSlope = 0;
+    Point leftLargeSlopePoint;
+    Point rightLargeSlopePoint;
+    for(i=0; i<size; i++)
+    {
+        double newSlope  = upperPoints[i].y - medianSlope * upperPoints[i].x;
+        if (newSlope > maxSlope)
+        {
+            maxSlope = newSlope;
+            leftLargeSlopePoint = upperPoints[i];
+            rightLargeSlopePoint = upperPoints[i];
+        }
+        else if(newSlope == maxSlope)
+        {
+            if(upperPoints[i].x < leftLargeSlopePoint.x)
+            {
+                leftLargeSlopePoint = upperPoints[i];
+            }
+            if(upperPoints[i].x > rightLargeSlopePoint.x)
+            {
+                rightLargeSlopePoint = upperPoints[i];
+            }
+        }
+    }
+    // cout<<maxSlope<<endl;
+    // cout<<leftLargeSlopePoint.x<<" "<<leftLargeSlopePoint.y<<endl;
+    // cout<<rightLargeSlopePoint.x<<" "<<rightLargeSlopePoint.y<<endl;
 }
 
 void connect(int minxIndex, int maxIndex, Point upperPoints[], int result[], int lesserN)
