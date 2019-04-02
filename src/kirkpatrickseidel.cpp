@@ -213,10 +213,10 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
         // cout<<"Points "<<pairs[i/2].p.x<<" "<<pairs[i/2].p.y<<" "<<pairs[i/2].q.x<<" "<<pairs[i/2].q.y<<endl;
     }
 
-    cout<<endl;
-    cout<<"Size is"<<size<<endl;
-    cout<<"NumPairs is"<<numPairs<<endl;
-    cout<<endl;
+    // cout<<endl;
+    // cout<<"Size is"<<size<<endl;
+    // cout<<"NumPairs is"<<numPairs<<endl;
+    // cout<<endl;
 
     double slopes[numPairs];
     safeInitialization(slopes, numPairs);
@@ -391,7 +391,7 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     Pairing leftright = bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
     // cout<<"Smaller left"<<leftright.p.x<<" "<<leftright.p.y<<endl;
     // cout<<"Greater right"<<leftright.q.x<<" "<<leftright.q.y<<endl;
-    cout<<endl;
+    // cout<<endl;
     Point leftPoints[lesserN];
     int leftPointsIndex = 0;
     for(i=0; i < lesserN; i++)
@@ -477,27 +477,41 @@ int kpsHullCompute(Point input[],Point result[],int N)
 
     upperHull(upper, resultUpper, N);
     resultUpperIndex = pointTracker;
-    for(i=0;i< resultUpperIndex;i++)
-	{
-        result[i] = resultUpper[i];
-    }
+
 
     pointTracker = 0;
     // cout<<"wababa"<<lower[0].x<<endl;
     upperHull(lower, resultLower, N);
     resultLowerIndex = pointTracker;
-    cout<<resultLowerIndex<<endl;
+    // cout<<resultLowerIndex<<endl;
     // cout<<resultUpper[0].x<<endl;
     flipSelf(resultLower, resultLowerIndex);
     // cout<<resultUpper[0].x<<endl;
-    // for(i = resultUpperIndex;i<resultUpperIndex + resultLowerIndex;i++)
-	// {
-    //     result[i] = resultUpper[i];
-    // }
+
+    //Merging
+    if(resultLower[resultLowerIndex-1].x == resultUpper[0].x && resultLower[resultLowerIndex-1].y == resultUpper[0].y)
+    {
+        resultLowerIndex -= 1;
+    }
+
+    if(resultLower[0].x == resultUpper[resultUpperIndex-1].x && resultLower[0].y == resultUpper[resultUpperIndex-1].y)
+    {
+        resultUpperIndex -= 1;
+    }
+
+    for(i = 0;i < resultUpperIndex;i++)
+	{
+        result[i] = resultUpper[i];
+    }
+
+    for(i = resultUpperIndex; i<resultUpperIndex + resultLowerIndex;i++)
+	{
+        result[i] = resultLower[i-resultUpperIndex];
+    }
     // for(i = 0; i < resultLowerIndex; i++)
     // {
     //     cout<<resultLower[i].x<<","<<resultLower[i].y<<endl;
     // }
 
-    return resultUpperIndex;
+    return resultUpperIndex + resultLowerIndex;
 }
