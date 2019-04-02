@@ -90,7 +90,7 @@ int main(int argc, char const *argv[])
         int points_on_hull = hull_compute(inp,result,total_points);
         // cout << points_on_hull << endl;
         outputFile.open("output/output_jarvis.ch");
-        outputFile << "CH" << endl;
+        outputFile << "CHJ" << endl;
         outputFile << total_points << " " << points_on_hull << endl;
         for(int i=0;i < total_points; i++)
         {
@@ -117,7 +117,7 @@ int main(int argc, char const *argv[])
           return 0;
         }
         outputFile.open("output/output_graham.ch");
-        outputFile << "CH" << endl;
+        outputFile << "CHG" << endl;
         outputFile << total_points << " " << points_on_hull << endl;
 
         for (int i = 0; i < total_points; i++) {

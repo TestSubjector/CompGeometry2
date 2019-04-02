@@ -1,6 +1,5 @@
 #include "convex_hull_structs.h"
 
-
 /**
  * Shifts the origin and then converts to Polar format
  * @param  p      Point in cartesian that needs to be converted
@@ -51,6 +50,11 @@ int compareTheta(PolarPoint p, PolarPoint q)
 // Stack methods
 //
 
+/**
+ * Check if stack is empty or not
+ * @param  root Node*
+ * @return 1 if empty, else 0.
+ */
 int isEmpty(Node* root)
 {
 	return !root;
@@ -186,6 +190,8 @@ void swap_all(Point inp[])
 /**
  * Changes the sign of all elements in the inp array passed
  * @param inp Point array
+ * @param out Point array
+ * @param size int
  * @return Point array with all elements having flipped sign compared to the input
  */
 void flipAll(Point inp[], Point out[], int size)

@@ -53,7 +53,7 @@ make clean
 
 ## Visualisation
 ```python
-python3 PythonVisualiser.py "path/to/outputfile/"
+python3 PythonSimpleVisualiser.py "path/to/outputfile/"
 ```
 
 References -

@@ -26,13 +26,14 @@ struct Point
   Point(){}
 };
 
-/// Struct that is a node in a stack
+/// Struct that describes a node in a stack
 struct Node
 {
   Point point;
   Node* next;
 };
 
+/// Struct that describes a pair of Points
 struct Pairing
 {
   Point p;
