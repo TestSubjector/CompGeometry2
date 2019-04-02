@@ -6,6 +6,8 @@
 #include<stdlib.h> //duplication in convex_hull_structs is taken care of by their include guards
 #include "convex_hull_structs.h"
 
+
+
 double nextDirection(Point p,Point q,Point r);
 int getLeftmostPoint(Point p[], int n);
 int removeThetaCollinear(PolarPoint inp[],int n,PolarPoint out[]);

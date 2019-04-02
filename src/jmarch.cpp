@@ -1,5 +1,6 @@
 #include "jmarch.h"
 
+
 /** Given 3 points p1, p2 and p3, function checks how p2-p3 is oriented wrt p1-p2
 	Returns 0 in case of no turn
 	Returns 1 in case of clockwise turn

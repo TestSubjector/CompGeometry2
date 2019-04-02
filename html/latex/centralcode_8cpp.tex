@@ -1,0 +1,177 @@
+\hypertarget{centralcode_8cpp}{}\doxysection{src/centralcode.cpp File Reference}
+\label{centralcode_8cpp}\index{src/centralcode.cpp@{src/centralcode.cpp}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include \char`\"{}graham\+\_\+scan.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}jmarch.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kirkpatrickseidel.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structPoint}{Point}} \mbox{\hyperlink{centralcode_8cpp_a78356e6bffa993dfdd71d3892291e868_a78356e6bffa993dfdd71d3892291e868}{parse\+Point}} (string inp, char delim=\textquotesingle{} \textquotesingle{})
+\item 
+int \mbox{\hyperlink{centralcode_8cpp_abf9e6b7e6f15df4b525a2e7705ba3089_abf9e6b7e6f15df4b525a2e7705ba3089}{main}} (int argc, char const $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{centralcode_8cpp_abf9e6b7e6f15df4b525a2e7705ba3089_abf9e6b7e6f15df4b525a2e7705ba3089}\label{centralcode_8cpp_abf9e6b7e6f15df4b525a2e7705ba3089_abf9e6b7e6f15df4b525a2e7705ba3089}} 
+\index{centralcode.cpp@{centralcode.cpp}!main@{main}}
+\index{main@{main}!centralcode.cpp@{centralcode.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char const $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Definition at line 26 of file centralcode.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{27 \{}
+\DoxyCodeLine{28     ifstream inputFile;}
+\DoxyCodeLine{29     ofstream outputFile;}
+\DoxyCodeLine{30     \textcolor{keywordtype}{string} filePath;}
+\DoxyCodeLine{31     cout << \textcolor{stringliteral}{"Enter input file path: "};}
+\DoxyCodeLine{32     getline(cin, filePath);}
+\DoxyCodeLine{33     inputFile.open(filePath,ios::in);}
+\DoxyCodeLine{34     \textcolor{keywordtype}{string} lineinput;}
+\DoxyCodeLine{35     \textcolor{keywordtype}{int} total\_points = 0;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keywordflow}{if}(argc != 2)}
+\DoxyCodeLine{38     \{}
+\DoxyCodeLine{39         \textcolor{comment}{//  cout<<argc<<endl;}}
+\DoxyCodeLine{40         cout<<\textcolor{stringliteral}{"Error, convex hull algorithm argument not specified (g,j or k). Exiting"}<<endl;}
+\DoxyCodeLine{41         exit(0);}
+\DoxyCodeLine{42     \}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44     \textcolor{comment}{// First line gives number of points in input}}
+\DoxyCodeLine{45     \textcolor{keywordflow}{if}(inputFile.is\_open())}
+\DoxyCodeLine{46     \{}
+\DoxyCodeLine{47         getline(inputFile, lineinput);}
+\DoxyCodeLine{48         total\_points = stoi(lineinput);}
+\DoxyCodeLine{49     \}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \mbox{\hyperlink{structPoint}{Point}} inp[total\_points];}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < total\_points; i++)}
+\DoxyCodeLine{54     \{}
+\DoxyCodeLine{55         getline(inputFile,lineinput);}
+\DoxyCodeLine{56         inp[i] = \mbox{\hyperlink{centralcode_8cpp_a78356e6bffa993dfdd71d3892291e868_a78356e6bffa993dfdd71d3892291e868}{parsePoint}}(lineinput);}
+\DoxyCodeLine{57         \textcolor{comment}{// Index needed only for Graham}}
+\DoxyCodeLine{58         inp[i].\mbox{\hyperlink{structPoint_aa54e7416306a410b3c740d422c98b8b1_aa54e7416306a410b3c740d422c98b8b1}{index}} = i;}
+\DoxyCodeLine{59     \}}
+\DoxyCodeLine{60     inputFile.close();}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{comment}{// Using KirkPatrickSeidel}}
+\DoxyCodeLine{63     \textcolor{keywordflow}{if}(strcmp(argv[0],\textcolor{stringliteral}{"k"}) == 0)}
+\DoxyCodeLine{64     \{}
+\DoxyCodeLine{65         cout<<\textcolor{stringliteral}{"running KirkPatrickSeidel algorithm"}<<endl;}
+\DoxyCodeLine{66         \mbox{\hyperlink{structPoint}{Point}} result[total\_points];}
+\DoxyCodeLine{67         \textcolor{keywordtype}{int} points\_on\_hull = \mbox{\hyperlink{kirkpatrickseidel_8cpp_a51d1841adf43ba65c3ae9bdc3c4cd13d_a51d1841adf43ba65c3ae9bdc3c4cd13d}{kpsHullCompute}}(inp,result,total\_points);}
+\DoxyCodeLine{68         outputFile.open(\textcolor{stringliteral}{"output/output\_kps.ch"});}
+\DoxyCodeLine{69         outputFile << \textcolor{stringliteral}{"CHK"} << endl;}
+\DoxyCodeLine{70         outputFile << total\_points << \textcolor{stringliteral}{" "} << points\_on\_hull << endl;}
+\DoxyCodeLine{71           \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i < total\_points; i++)}
+\DoxyCodeLine{72         \{}
+\DoxyCodeLine{73             outputFile << inp[i].\mbox{\hyperlink{structPoint_ab99c56589bc8ad5fa5071387110a5bc7_ab99c56589bc8ad5fa5071387110a5bc7}{x}} << \textcolor{stringliteral}{" "} << inp[i].\mbox{\hyperlink{structPoint_afa38be143ae800e6ad69ce8ed4df62d8_afa38be143ae800e6ad69ce8ed4df62d8}{y}} << \textcolor{stringliteral}{" 0.0"} << endl;}
+\DoxyCodeLine{74         \}}
+\DoxyCodeLine{75         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i < points\_on\_hull;i++)}
+\DoxyCodeLine{76         \{}
+\DoxyCodeLine{77             outputFile<<result[i].\mbox{\hyperlink{structPoint_ab99c56589bc8ad5fa5071387110a5bc7_ab99c56589bc8ad5fa5071387110a5bc7}{x}}<<\textcolor{stringliteral}{","}<<result[i].\mbox{\hyperlink{structPoint_afa38be143ae800e6ad69ce8ed4df62d8_afa38be143ae800e6ad69ce8ed4df62d8}{y}}<<\textcolor{stringliteral}{" "};}
+\DoxyCodeLine{78         \}}
+\DoxyCodeLine{79         outputFile << endl;}
+\DoxyCodeLine{80         outputFile.close();}
+\DoxyCodeLine{81     \}}
+\DoxyCodeLine{82     \textcolor{comment}{// KirkPatrickSeidel end}}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85     \textcolor{comment}{// Using  JMarch}}
+\DoxyCodeLine{86     \textcolor{keywordflow}{if}(strcmp(argv[0],\textcolor{stringliteral}{"j"}) == 0)}
+\DoxyCodeLine{87     \{}
+\DoxyCodeLine{88         cout<<\textcolor{stringliteral}{"running JarvisMarch algorithm"}<<endl;}
+\DoxyCodeLine{89         \textcolor{keywordtype}{int} result[total\_points];}
+\DoxyCodeLine{90         \textcolor{keywordtype}{int} points\_on\_hull = \mbox{\hyperlink{jmarch_8cpp_ae5e8c99e55c0a0e14d964b9d36c8c5c5_ae5e8c99e55c0a0e14d964b9d36c8c5c5}{hull\_compute}}(inp,result,total\_points);}
+\DoxyCodeLine{91         \textcolor{comment}{// cout << points\_on\_hull << endl;}}
+\DoxyCodeLine{92         outputFile.open(\textcolor{stringliteral}{"output/output\_jarvis.ch"});}
+\DoxyCodeLine{93         outputFile << \textcolor{stringliteral}{"CH"} << endl;}
+\DoxyCodeLine{94         outputFile << total\_points << \textcolor{stringliteral}{" "} << points\_on\_hull << endl;}
+\DoxyCodeLine{95         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i < total\_points; i++)}
+\DoxyCodeLine{96         \{}
+\DoxyCodeLine{97             outputFile << inp[i].\mbox{\hyperlink{structPoint_ab99c56589bc8ad5fa5071387110a5bc7_ab99c56589bc8ad5fa5071387110a5bc7}{x}} << \textcolor{stringliteral}{" "} << inp[i].\mbox{\hyperlink{structPoint_afa38be143ae800e6ad69ce8ed4df62d8_afa38be143ae800e6ad69ce8ed4df62d8}{y}} << \textcolor{stringliteral}{" 0.0"} << endl;}
+\DoxyCodeLine{98         \}}
+\DoxyCodeLine{99         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0;i < points\_on\_hull;i++)}
+\DoxyCodeLine{100         \{}
+\DoxyCodeLine{101             outputFile<<result[i]<<\textcolor{stringliteral}{" "};}
+\DoxyCodeLine{102         \}}
+\DoxyCodeLine{103         outputFile << endl;}
+\DoxyCodeLine{104         outputFile.close();}
+\DoxyCodeLine{105     \}}
+\DoxyCodeLine{106     \textcolor{comment}{// JMarch end}}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109     \textcolor{comment}{// Using Graham's Scan}}
+\DoxyCodeLine{110     \textcolor{keywordflow}{if}(strcmp(argv[0],\textcolor{stringliteral}{"g"}) == 0)}
+\DoxyCodeLine{111     \{}
+\DoxyCodeLine{112         cout<<\textcolor{stringliteral}{"running GrahamsScan algorithm"}<<endl;}
+\DoxyCodeLine{113         \mbox{\hyperlink{convex__hull__structs_8h_structNode}{Node}} *root;}
+\DoxyCodeLine{114         \textcolor{keywordtype}{int} points\_on\_hull = \mbox{\hyperlink{graham__scan_8cpp_a29aadae86c3a4e9b729b60606c212b88_a29aadae86c3a4e9b729b60606c212b88}{getHull}}(inp, total\_points, \&root);}
+\DoxyCodeLine{115         \textcolor{keywordflow}{if}(points\_on\_hull==-\/1)}
+\DoxyCodeLine{116         \{}
+\DoxyCodeLine{117           \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{118         \}}
+\DoxyCodeLine{119         outputFile.open(\textcolor{stringliteral}{"output/output\_graham.ch"});}
+\DoxyCodeLine{120         outputFile << \textcolor{stringliteral}{"CH"} << endl;}
+\DoxyCodeLine{121         outputFile << total\_points << \textcolor{stringliteral}{" "} << points\_on\_hull << endl;}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < total\_points; i++) \{}
+\DoxyCodeLine{124             outputFile << inp[i].\mbox{\hyperlink{structPoint_ab99c56589bc8ad5fa5071387110a5bc7_ab99c56589bc8ad5fa5071387110a5bc7}{x}} << \textcolor{stringliteral}{" "} << inp[i].\mbox{\hyperlink{structPoint_afa38be143ae800e6ad69ce8ed4df62d8_afa38be143ae800e6ad69ce8ed4df62d8}{y}} << \textcolor{stringliteral}{" 0.0"} << endl;}
+\DoxyCodeLine{125         \}}
+\DoxyCodeLine{126         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < points\_on\_hull; i++)}
+\DoxyCodeLine{127         \{}
+\DoxyCodeLine{128             \mbox{\hyperlink{structPoint}{Point}} temp = \mbox{\hyperlink{convex__hull__structs_8cpp_a17c7cdc313c0ae96a4d4de67508f4fa8_a17c7cdc313c0ae96a4d4de67508f4fa8}{pop}}(\&root);}
+\DoxyCodeLine{129             outputFile << temp.\mbox{\hyperlink{structPoint_aa54e7416306a410b3c740d422c98b8b1_aa54e7416306a410b3c740d422c98b8b1}{index}} << \textcolor{stringliteral}{" "};}
+\DoxyCodeLine{130         \}}
+\DoxyCodeLine{131         outputFile << endl;}
+\DoxyCodeLine{132         outputFile.close();}
+\DoxyCodeLine{133         \}}
+\DoxyCodeLine{134     \textcolor{comment}{// Graham's end}}
+\DoxyCodeLine{135 \}}
+
+\end{DoxyCode}
+
+
+References get\+Hull(), hull\+\_\+compute(), Point\+::index, kps\+Hull\+Compute(), parse\+Point(), pop(), Point\+::x, and Point\+::y.
+
+\mbox{\Hypertarget{centralcode_8cpp_a78356e6bffa993dfdd71d3892291e868_a78356e6bffa993dfdd71d3892291e868}\label{centralcode_8cpp_a78356e6bffa993dfdd71d3892291e868_a78356e6bffa993dfdd71d3892291e868}} 
+\index{centralcode.cpp@{centralcode.cpp}!parsePoint@{parsePoint}}
+\index{parsePoint@{parsePoint}!centralcode.cpp@{centralcode.cpp}}
+\doxysubsubsection{\texorpdfstring{parsePoint()}{parsePoint()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structPoint}{Point}} parse\+Point (\begin{DoxyParamCaption}\item[{string}]{inp,  }\item[{char}]{delim = {\ttfamily \textquotesingle{}~\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line 12 of file centralcode.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{14     \textcolor{keywordtype}{size\_t} loc = inp.find(delim);}
+\DoxyCodeLine{15     \textcolor{keywordtype}{double} f1,f2;}
+\DoxyCodeLine{16     \textcolor{comment}{// Though there will always be one delimiter}}
+\DoxyCodeLine{17     \textcolor{keywordflow}{if}(loc != string::npos)}
+\DoxyCodeLine{18     \{}
+\DoxyCodeLine{19       f1 = stof(inp.substr(0, loc));}
+\DoxyCodeLine{20       f2 = stof(inp.substr(loc+1));}
+\DoxyCodeLine{21       \textcolor{keywordflow}{return} \mbox{\hyperlink{structPoint}{Point}}(f1,f2);}
+\DoxyCodeLine{22     \}}
+\DoxyCodeLine{23     \textcolor{keywordflow}{return} \mbox{\hyperlink{structPoint}{Point}}();}
+\DoxyCodeLine{24 \}}
+
+\end{DoxyCode}
+
+
+Referenced by main().
+

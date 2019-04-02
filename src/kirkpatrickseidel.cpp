@@ -1,4 +1,5 @@
 #include "kirkpatrickseidel.h"
+
 using namespace std;
 
 int pointTracker = 0;

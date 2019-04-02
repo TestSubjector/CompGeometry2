@@ -1,5 +1,6 @@
 #include "convex_hull_structs.h"
 
+
 /**
  * Shifts the origin and then converts to Polar format
  * @param  p      Point in cartesian that needs to be converted
