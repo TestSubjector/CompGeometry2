@@ -213,8 +213,10 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
         // cout<<"Points "<<pairs[i/2].p.x<<" "<<pairs[i/2].p.y<<" "<<pairs[i/2].q.x<<" "<<pairs[i/2].q.y<<endl;
     }
 
-    // cout<<"Size is"<<size<<endl;
-    // cout<<"NumPairs is"<<numPairs<<endl;
+    cout<<endl;
+    cout<<"Size is"<<size<<endl;
+    cout<<"NumPairs is"<<numPairs<<endl;
+    cout<<endl;
 
     double slopes[numPairs];
     safeInitialization(slopes, numPairs);
@@ -238,8 +240,8 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
         }
         else
         {
-            // cout<<"Points2 "<<pairs[i].p.x<<" "<<pairs[i].p.y<<" "<<pairs[i].q.x<<" "<<pairs[i].q.y<<endl;
-            slopes[slopeUpdate] = ((temp.p.y - temp.q.y) / (temp.p.x - temp.q.y));
+            // cout<<"Point's slopes "<<pairs[i].p.x<<" "<<pairs[i].p.y<<" "<<pairs[i].q.x<<" "<<pairs[i].q.y<<endl;
+            slopes[slopeUpdate] = ((temp.p.y - temp.q.y) / (temp.p.x - temp.q.x));
             // cout<<slopes[slopeUpdate]<<endl;
             slopeUpdate++;
         }
@@ -372,14 +374,6 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
 
 void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int lesserN)
 {
-    // if(lesserN == 3)
-    // {
-    //     cout<<endl;
-    //     cout<<upperPoints[0].x<<" "<<upperPoints[0].y<<endl;
-    //     cout<<upperPoints[1].x<<" "<<upperPoints[1].y<<endl;
-    //     cout<<upperPoints[2].x<<" "<<upperPoints[2].y<<endl;
-    //     cout<<endl;
-    // }
     int i = 0;
     if (minx.x == maxx.x && minx.y == maxx.y)
     {
@@ -390,13 +384,14 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     Point temp[lesserN];
     copyInitialization(temp, upperPoints, lesserN);
     Point max_left = temp[quickselect((lesserN)/2, 0, lesserN - 1, temp)];
-    // cout<<"Max L"<<max_left.x<<" "<< max_left.y<<endl;
+    // cout<<"Max L "<<max_left.x<<" "<< max_left.y<<endl;
     copyInitialization(temp, upperPoints, lesserN);
     Point min_right = temp[quickselect(lesserN/2 + 1, 0, lesserN - 1, temp)];
-    // cout<<"Min R"<<min_right.x<<" "<<min_right.y<<endl;
+    // cout<<"Min R "<<min_right.x<<" "<<min_right.y<<endl;
     Pairing leftright = bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
     // cout<<"Smaller left"<<leftright.p.x<<" "<<leftright.p.y<<endl;
     // cout<<"Greater right"<<leftright.q.x<<" "<<leftright.q.y<<endl;
+    cout<<endl;
     Point leftPoints[lesserN];
     int leftPointsIndex = 0;
     for(i=0; i < lesserN; i++)
@@ -499,10 +494,10 @@ int kpsHullCompute(Point input[],Point result[],int N)
 	// {
     //     result[i] = resultUpper[i];
     // }
-    for(i = 0; i < resultLowerIndex; i++)
-    {
-        cout<<resultLower[i].x<<","<<resultLower[i].y<<endl;
-    }
+    // for(i = 0; i < resultLowerIndex; i++)
+    // {
+    //     cout<<resultLower[i].x<<","<<resultLower[i].y<<endl;
+    // }
 
     return resultUpperIndex;
 }
