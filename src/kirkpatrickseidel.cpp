@@ -373,7 +373,7 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     return bridgeFinder(candidates, upperLine, update);
 }
 
-void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int lesserN)
+void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int lesserN, ofstream &visualiseOut)
 {
     int i = 0;
     if (minx.x == maxx.x && minx.y == maxx.y)
@@ -390,6 +390,17 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     Point min_right = temp[quickselect(lesserN/2 + 1, 0, lesserN - 1, temp)];
     // cout<<"Min R "<<min_right.x<<" "<<min_right.y<<endl;
     Pairing leftright = bridgeFinder(upperPoints, (max_left.x + min_right.x)/2, lesserN);
+
+    if(complexVisualiseFlag == 1)
+    {
+        visualiseOut<<leftright.p.x<<","<<leftright.p.y<<endl;
+        visualiseOut<<leftright.q.x<<","<<leftright.q.y<<endl;
+    }
+    if(complexVisualiseFlag == 2)
+    {
+        visualiseOut<<-leftright.p.x<<","<<-leftright.p.y<<endl;
+        visualiseOut<<-leftright.q.x<<","<<-leftright.q.y<<endl;
+    }
     // cout<<"Smaller left"<<leftright.p.x<<" "<<leftright.p.y<<endl;
     // cout<<"Greater right"<<leftright.q.x<<" "<<leftright.q.y<<endl;
     // cout<<endl;
@@ -428,15 +439,15 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     //     }
     // }
     // cout<<"**Left**"<<leftPointsIndex<<endl;
-    connect(minx, leftright.p, leftPoints, result, leftPointsIndex);
+    connect(minx, leftright.p, leftPoints, result, leftPointsIndex, visualiseOut);
     // cout<<endl;
     // cout<<"**Right**"<<rightPointsIndex<<endl;
     // cout<<"R is"<<leftright.q.x<<" "<<leftright.q.y<<endl;
     // cout<<"Max is"<<maxx.x<<" "<<maxx.y<<endl;
-    connect(leftright.q, maxx, rightPoints, result, rightPointsIndex);
+    connect(leftright.q, maxx, rightPoints, result, rightPointsIndex, visualiseOut);
 }
 
-void upperHull(Point input[],Point result[], int N)
+void upperHull(Point input[],Point result[], int N, ofstream &visualiseOut)
 {
     // cout<<kpsGetLeftMostPoint(input, N)<<endl;
     // cout<<kpsGetRightMostPoint(input, N)<<endl;
@@ -459,7 +470,7 @@ void upperHull(Point input[],Point result[], int N)
         }
     }
     // printArray(upperPoints, lesserN);
-    connect(input[minxIndex], input[maxxIndex], upperPoints, result, lesserN);
+    connect(input[minxIndex], input[maxxIndex], upperPoints, result, lesserN, visualiseOut);
     return;
 }
 
@@ -476,14 +487,30 @@ int kpsHullCompute(Point input[],Point result[],int N)
     Point resultLower[N];
     int resultLowerIndex = 0;
 
-    upperHull(upper, resultUpper, N);
+    ofstream visualiseOut;
+
+    if(complexVisualiseFlag != 0)
+    {
+        visualiseOut.open("/home/testsubjector/code/github_c++/CompGeom2/output/output_kpsbridge.ch");
+    }
+
+    upperHull(upper, resultUpper, N, visualiseOut);
     resultUpperIndex = pointTracker;
 
+    if(complexVisualiseFlag != 0)
+    {
+        complexVisualiseFlag = 2;
+    }
 
     pointTracker = 0;
     // cout<<"wababa"<<lower[0].x<<endl;
-    upperHull(lower, resultLower, N);
+    upperHull(lower, resultLower, N, visualiseOut);
     resultLowerIndex = pointTracker;
+
+    if(complexVisualiseFlag != 0)
+    {
+        visualiseOut.close();
+    }
     // cout<<resultLowerIndex<<endl;
     // cout<<resultUpper[0].x<<endl;
     flipSelf(resultLower, resultLowerIndex);

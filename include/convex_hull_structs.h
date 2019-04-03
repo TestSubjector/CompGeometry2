@@ -5,6 +5,8 @@
 #include<stdlib.h>
 #include<iostream>
 
+extern int complexVisualiseFlag;
+
 /// Struct that describes a point in polar coordinates
 struct PolarPoint
 {

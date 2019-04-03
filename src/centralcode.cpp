@@ -7,6 +7,8 @@
 #include "jmarch.h"
 #include "kirkpatrickseidel.h"
 
+int complexVisualiseFlag = 0;
+
 using namespace std;
 // This assumes only one delimiter per string
 Point parsePoint(string inp, char delim = ' ')
@@ -34,11 +36,17 @@ int main(int argc, char const *argv[])
     string lineinput;
     int total_points = 0;
 
-    if(argc != 2)
+    // The first argument is the executable, second is the algorithm to be used, third is the complex visualisation flag
+    if(argc != 2 && argc !=3)
     {
         //  cout<<argc<<endl;
-        cout<<"Error, convex hull algorithm argument not specified (g,j or k). Exiting"<<endl;
+        cout<<"Error, convex hull algorithm argument not specified (g,j or k). Or too many arguments. Exiting"<<endl;
         exit(0);
+    }
+
+    if(argc == 3)
+    {
+        complexVisualiseFlag = 1;
     }
 
     // First line gives number of points in input
@@ -60,9 +68,9 @@ int main(int argc, char const *argv[])
     inputFile.close();
 
     // Using KirkPatrickSeidel
-    if(strcmp(argv[0],"k") == 0)
+    if(strcmp(argv[1],"k") == 0)
     {
-        cout<<"running KirkPatrickSeidel algorithm"<<endl;
+        cout<<"Running KirkPatrickSeidel algorithm"<<endl;
         Point result[total_points];
         int points_on_hull = kpsHullCompute(inp,result,total_points);
         outputFile.open("output/output_kps.ch");
@@ -83,9 +91,9 @@ int main(int argc, char const *argv[])
 
 
     // Using  JMarch
-    if(strcmp(argv[0],"j") == 0)
+    if(strcmp(argv[1],"j") == 0)
     {
-        cout<<"running JarvisMarch algorithm"<<endl;
+        cout<<"Running JarvisMarch algorithm"<<endl;
         int result[total_points];
         int points_on_hull = hull_compute(inp,result,total_points);
         // cout << points_on_hull << endl;
@@ -107,9 +115,9 @@ int main(int argc, char const *argv[])
 
 
     // Using Graham's Scan
-    if(strcmp(argv[0],"g") == 0)
+    if(strcmp(argv[1],"g") == 0)
     {
-        cout<<"running GrahamsScan algorithm"<<endl;
+        cout<<"Running GrahamsScan algorithm"<<endl;
         Node *root;
         int points_on_hull = getHull(inp, total_points, &root);
         if(points_on_hull==-1)

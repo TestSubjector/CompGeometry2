@@ -49,3 +49,4 @@ if __name__ == '__main__':
             plt.plot([ch_indices[i][0], ch_indices[i+1][0]],[ch_indices[i][1], ch_indices[i+1][1]],'g-')
         plt.plot([ch_indices[0][0], ch_indices[len(ch_indices)-1][0]], [ch_indices[0][1], ch_indices[len(ch_indices)-1][1]],'g-')
         plt.show()
+    inputfile.close()

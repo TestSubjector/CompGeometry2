@@ -2,6 +2,7 @@
 #define __KIRKPATRICKSEIDEL_H__
 
 #include<iostream>
+#include <fstream>
 #include<stdlib.h>
 #include "convex_hull_structs.h"
 
@@ -9,8 +10,8 @@ extern int pointTracker;
 
 int kpsHullCompute(Point input[],Point result[],int N);
 
-void upperHull(Point input[],Point result[], int N);
-void connect(Point minxIndex, Point maxIndex, Point upperPoints[], Point result[], int lesserN);
+void upperHull(Point input[],Point result[], int N, std::ofstream &visualiseOut);
+void connect(Point minxIndex, Point maxIndex, Point upperPoints[], Point result[], int lesserN, std::ofstream &visualiseOut);
 Pairing bridgeFinder(Point upperPoints[], int upperLine, int size);
 
 void safeInitialization(int arr[], int size);
