@@ -76,10 +76,12 @@ if __name__ == '__main__':
             bridgePoints.append([float(x), float(y)])
             readLine = bridgeFile.readline()
         for i in range(0, len(bridgePoints), 2):
+            plt.savefig('figure/image'+str(i)+'.png')
             temp_line = plt.plot([bridgePoints[i][0], bridgePoints[i+1][0]],[bridgePoints[i][1], bridgePoints[i+1][1]],'g-')
             plt.pause(0.5)
-        plt.pause(0.03)
+        plt.savefig('figure/image'+str(i+2)+'.png')
         plt.plot([ch_indices[0][0], ch_indices[len(ch_indices)-1][0]], [ch_indices[0][1], ch_indices[len(ch_indices)-1][1]],'g-')
+        plt.savefig('figure/image'+str(i+4)+'.png')
         plt.show()
-
+        bridgeFile.close()
     inputfile.close()
