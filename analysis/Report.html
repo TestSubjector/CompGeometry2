@@ -1,0 +1,21 @@
+<h1>Analysis of Convex Hull Algorithms</h1>
+
+<p>Given below are plots for the three algorithms.
+The benchmarks are given in the <code>benchmarks</code> folder and have been computed with the help of the C++ benchmark library Hayai. for better accuracy.</p>
+
+<h2>Comments</h2>
+
+<p><strong>It is important to point out that <code>2000</code> point case is actually a 5000 point case, the displacement is a mistake in the plots.</strong>
+It was suprising to see the severe difference in running time between the 5000 points case and the 20000 case. Much of this discrepancy happens due to the point distribution of the two cases. While the 5000 case consisted of a distribution of random points in a bounded box, the 20000 and 40000 cases both consisted of points with x being ascending and y being random.</p>
+
+<h2>Average Case</h2>
+
+<p><img src="Average.png" alt="alt text" title="Title" /></p>
+
+<h2>Worst Case</h2>
+
+<p><img src="Worst.png" alt="alt text" title="Title" /></p>
+
+<h2>Best Case</h2>
+
+<p><img src="Best.png" alt="alt text" title="Title" /></p>
