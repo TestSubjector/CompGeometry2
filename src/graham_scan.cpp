@@ -107,11 +107,21 @@ void sortPoints(PolarPoint inp[], int n)
  */
 int computeHull(Point inp[],int n,Node **root)
 {
+    std::ofstream visualiseOut;
+    if(complexVisualiseFlag != 0)
+    {
+        visualiseOut.open("/home/testsubjector/code/github_c++/CompGeom2/output/output_grahamstack.ch");
+    }
     int size = 0;
     //Add the origin and next point to the Hull
     push(inp[size++], root); // 0->1
     push(inp[size++], root); // 1->2
 
+    if(complexVisualiseFlag != 0)
+    {
+        visualiseOut<<inp[0].x<<","<<inp[0].y<<std::endl;
+        visualiseOut<<inp[1].x<<","<<inp[1].y<<std::endl;
+    }
     for(int i = 2; i < n-1; i++ )
     {
         // cout << "(" << peek(root).x << " " << peek(root).y << ") ";
@@ -122,27 +132,51 @@ int computeHull(Point inp[],int n,Node **root)
         {
             //The code below running means occurence of a right turn. If collinear point not to be taken, make <=
             Point popped = pop(root);
+            // if(complexVisualiseFlag != 0)
+            // {
+            //     visualiseOut<<popped.x<<","<<popped.y<<std::endl;
+            // }
             size--;
             // Keep popping till left turn arises
             while (nextDirection(popped, peek(root), inp[i+1]) >= 0 && !isEmpty(*root))
             {
                 // cout << "while: popped" <<endl;
                 popped = pop(root);
+                if(complexVisualiseFlag != 0)
+                {
+                    visualiseOut<<popped.x<<","<<popped.y<<std::endl;
+                }
                 size--;
             }
             push(popped,root);
+            // if(complexVisualiseFlag != 0)
+            // {
+            //     visualiseOut<<popped.x<<","<<popped.y<<std::endl;
+            // }
             size++;
         }
         else
         {
             push(inp[i],root);
+            if(complexVisualiseFlag != 0)
+            {
+                visualiseOut<<inp[i].x<<","<<inp[i].y<<std::endl;
+            }
             // cout << "pushed" << endl;
             size++;
         }
     }
     push(inp[n-1],root);
+    if(complexVisualiseFlag != 0)
+    {
+        visualiseOut<<inp[n-1].x<<","<<inp[n-1].y<<std::endl;
+    }
     size++;
     delete inp;
+    if(complexVisualiseFlag != 0)
+    {
+        visualiseOut.close();
+    }
     return size;
 }
 

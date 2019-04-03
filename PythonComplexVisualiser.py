@@ -54,17 +54,38 @@ if __name__ == '__main__':
 
         for point in points:
             plt.plot(point[0],point[1],'bo')
-        for i in range(len(ch_indices)-1):
-            plt.plot([points[ch_indices[i]][0],points[ch_indices[i+1]][0]],[points[ch_indices[i]][1],points[ch_indices[i+1]][1]],'g-')
-        plt.plot([points[ch_indices[0]][0],points[ch_indices[len(ch_indices)-1]][0]],[points[ch_indices[0]][1],points[ch_indices[len(ch_indices)-1]][1]],'g-')
+
+        stackFile = open("output/output_grahamstack.ch")
+        stackPoints = []
+        readLine = stackFile.readline()
+        while readLine:
+            x,y = readLine.split(",")
+            stackPoints.append([float(x), float(y)])
+            readLine = stackFile.readline()
+
+        returnTracker = []
+        count = 0
+        for i in range(0, len(stackPoints)-1):
+            # if i > 1 and stackPoints[i][0] ==
+            if [stackPoints[i][0],stackPoints[i][1]] in returnTracker:
+                for j in range(i, returnTracker.index([stackPoints[i][0],stackPoints[i][1]]), -1):
+                    plt.plot([stackPoints[j][0],stackPoints[j-1][0]],[stackPoints[j][1], stackPoints[j-1][1]],'w', linewidth=2.0)
+                    plt.savefig('figure/image'+str(count)+'.png')
+                    count+=1
+                    plt.pause(0.5)
+            plt.savefig('figure/image'+str(count)+'.png')
+            count+=1
+            plt.plot([stackPoints[i][0],stackPoints[i+1][0]],[stackPoints[i][1], stackPoints[i+1][1]],'g-')
+            returnTracker.append([stackPoints[i][0],stackPoints[i][1]])
+            plt.pause(0.5)
+        plt.savefig('figure/image'+str(count)+'.png')
+        count+=1
+        plt.plot([stackPoints[0][0],stackPoints[len(stackPoints)-1][0]],[stackPoints[0][1], stackPoints[len(stackPoints)-1][1]],'g-')
+        plt.savefig('figure/image'+str(count)+'.png')
+        count+=1
         plt.show()
 
     if storeType == "CHK\n":
-        ch_points = [element for element in map(str,inputfile.readline().split())]
-        ch_indices = []
-        for item in ch_points:
-            x,y = item.split(",")
-            ch_indices.append([float(x), float(y)])
         for point in points:
             plt.plot(point[0],point[1],'bo')
 

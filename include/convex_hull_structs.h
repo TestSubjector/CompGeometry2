@@ -1,9 +1,11 @@
 // Include Guard
 #ifndef __CONVEX_HULL_STRUCTS_INCLUDED__
 #define __CONVEX_HULL_STRUCTS_INCLUDED__
+
 #include<cmath>
 #include<stdlib.h>
 #include<iostream>
+#include <fstream>
 
 extern int complexVisualiseFlag;
 

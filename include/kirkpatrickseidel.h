@@ -2,7 +2,6 @@
 #define __KIRKPATRICKSEIDEL_H__
 
 #include<iostream>
-#include <fstream>
 #include<stdlib.h>
 #include "convex_hull_structs.h"
 

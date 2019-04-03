@@ -2,9 +2,9 @@
 #ifndef __GRAHAM_SCAN_H__
 #define __GRAHAM_SCAN_H__
 
+#include "convex_hull_structs.h"
 #include<iostream> //duplication in convex_hull_structs is taken care of by their include guards
 #include<stdlib.h> //duplication in convex_hull_structs is taken care of by their include guards
-#include "convex_hull_structs.h"
 
 double nextDirection(Point p,Point q,Point r);
 int getLeftmostPoint(Point p[], int n);
