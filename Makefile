@@ -4,7 +4,7 @@ CXX ?= g++
 SRC_PATH = src
 BUILD_PATH = build
 DEP_PATH = deps
-BIN_PATH = $(BUILD_PATH)/bin
+BIN_PATH = $(BUILD_PATH)
 
 # executable #
 BIN_NAME = run_daa
@@ -23,8 +23,8 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -std=c++14 -Wall -Wextra -g
-INCLUDES = -I include/ -I /usr/local/include
+COMPILE_FLAGS = -std=c++14 -Wall -Wextra -g -lbenchmark -lpthread
+INCLUDES = -I include/ -I /usr/local/include -I /home/testsubjector/code/github_c++/hayai/src
 # Space-separated pkg-config libraries used by this project
 LIBS =
 

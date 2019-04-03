@@ -6,6 +6,7 @@
 #include "graham_scan.h"
 #include "jmarch.h"
 #include "kirkpatrickseidel.h"
+#include "hayai.hpp"
 
 int complexVisualiseFlag = 0;
 
@@ -25,8 +26,112 @@ Point parsePoint(string inp, char delim = ' ')
     return Point();
 }
 
+BENCHMARK(Benchmark_Graham, DeliverPackage, 10, 10)
+{
+    Node *root;
+    ifstream inputFile;
+    ofstream outputFile;
+    string filePath;
+    // cout << "Enter input file path: ";
+    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/specialcase.txt";
+    inputFile.open(filePath,ios::in);
+    string lineinput;
+    int total_points = 0;
+
+    if(inputFile.is_open())
+    {
+        getline(inputFile, lineinput);
+        total_points = stoi(lineinput);
+    }
+
+    Point inp[total_points];
+
+    for(int i = 0; i < total_points; i++)
+    {
+        getline(inputFile,lineinput);
+        inp[i] = parsePoint(lineinput);
+        // Index needed only for Graham
+        inp[i].index = i;
+    }
+    inputFile.close();
+
+    getHull(inp, total_points, &root);
+}
+
+BENCHMARK(Benchmark_Jarvis, DeliverPackage, 10, 10)
+{
+
+    ifstream inputFile;
+    ofstream outputFile;
+    string filePath;
+    // cout << "Enter input file path: ";
+    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/specialcase.txt";
+    inputFile.open(filePath,ios::in);
+    string lineinput;
+    int total_points = 0;
+
+    if(inputFile.is_open())
+    {
+        getline(inputFile, lineinput);
+        total_points = stoi(lineinput);
+    }
+
+    Point inp[total_points];
+
+    for(int i = 0; i < total_points; i++)
+    {
+        getline(inputFile,lineinput);
+        inp[i] = parsePoint(lineinput);
+        // Index needed only for Graham
+        inp[i].index = i;
+    }
+    inputFile.close();
+    int result[total_points];
+    hull_compute(inp,result,total_points);
+}
+
+BENCHMARK(Benchmark_KirkPatrickSeidel, DeliverPackage, 10, 1)
+{
+    ifstream inputFile;
+    ofstream outputFile;
+    string filePath;
+    // cout << "Enter input file path: ";
+    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/specialcase.txt";
+    inputFile.open(filePath,ios::in);
+    string lineinput;
+    int total_points = 0;
+
+    if(inputFile.is_open())
+    {
+        getline(inputFile, lineinput);
+        total_points = stoi(lineinput);
+    }
+
+    Point inp[total_points];
+
+    for(int i = 0; i < total_points; i++)
+    {
+        getline(inputFile,lineinput);
+        inp[i] = parsePoint(lineinput);
+        // Index needed only for Graham
+        inp[i].index = i;
+    }
+    inputFile.close();
+    Point result[total_points];
+    kpsHullCompute(inp,result,total_points);
+}
+
 int main(int argc, char const *argv[])
 {
+
+    if(strcmp(argv[1],"t") == 0)
+    {
+        hayai::ConsoleOutputter consoleOutputter;
+        hayai::Benchmarker::AddOutputter(consoleOutputter);
+        hayai::Benchmarker::RunAllTests();
+        exit(0);
+    }
+
     ifstream inputFile;
     ofstream outputFile;
     string filePath;
@@ -140,4 +245,5 @@ int main(int argc, char const *argv[])
         outputFile.close();
         }
     // Graham's end
+
 }
