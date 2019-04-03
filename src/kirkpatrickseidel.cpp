@@ -205,7 +205,7 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
         numPairs = size/2;
     }
     int i = 0;
-    Pairing pairs[numPairs];
+    Pairing *pairs = new Pairing[numPairs];
     for(i = 0; i < size-1; i+=2)
     {
         pairs[i/2] = Pairing(upperPoints[i], upperPoints[i+1]);
@@ -219,7 +219,7 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     // cout<<"NumPairs is"<<numPairs<<endl;
     // cout<<endl;
 
-    double slopes[numPairs];
+    double *slopes = new double [numPairs];
     safeInitialization(slopes, numPairs);
     int slopeUpdate = 0;
     for(i = 0; i < numPairs; i+=1)
@@ -261,7 +261,7 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
         medianIndex = slopeUpdate - 1 /2;
     }
 
-    double temp[numPairs];
+    double *temp = new double [numPairs];
     copyInitialization(temp, slopes, slopeUpdate);
     // cout<<"Slopeupdate is"<<slopeUpdate<<endl;
     double medianSlope = slopes[quickselect(medianIndex, 0, slopeUpdate -1, temp)];
@@ -375,6 +375,9 @@ Pairing bridgeFinder(Point upperPoints[], int upperLine, int size)
     delete [] small;
     delete [] equal;
     delete [] large;
+    delete [] slopes;
+    delete [] temp;
+    delete [] pairs;
     return bridgeFinder(candidates, upperLine, update);
 }
 
@@ -446,10 +449,16 @@ void connect(Point minx, Point maxx, Point upperPoints[], Point result[], int le
     // cout<<"**Left**"<<leftPointsIndex<<endl;
     delete [] temp;
     delete [] upperPoints;
-    connect(minx, leftright.p, leftPoints, result, leftPointsIndex, visualiseOut);
+
+    // cout<<"**Left** "<<leftPointsIndex<<endl;
+    // cout<<"L is "<<leftright.p.x<<" "<<leftright.p.y<<endl;
+
+    // cout<<"**Right** "<<rightPointsIndex<<endl;
+    // cout<<"R is "<<leftright.q.x<<" "<<leftright.q.y<<endl;
     // cout<<endl;
-    // cout<<"**Right**"<<rightPointsIndex<<endl;
-    // cout<<"R is"<<leftright.q.x<<" "<<leftright.q.y<<endl;
+
+    connect(minx, leftright.p, leftPoints, result, leftPointsIndex, visualiseOut);
+
     // cout<<"Max is"<<maxx.x<<" "<<maxx.y<<endl;
     connect(leftright.q, maxx, rightPoints, result, rightPointsIndex, visualiseOut);
 }

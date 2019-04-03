@@ -26,14 +26,14 @@ Point parsePoint(string inp, char delim = ' ')
     return Point();
 }
 
-BENCHMARK(Benchmark_Graham, DeliverPackage, 10, 10)
+BENCHMARK(Benchmark_Graham, DeliverPackage, 1, 2)
 {
     Node *root;
     ifstream inputFile;
     ofstream outputFile;
     string filePath;
     // cout << "Enter input file path: ";
-    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/specialcase.txt";
+    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/testcase6.txt";
     inputFile.open(filePath,ios::in);
     string lineinput;
     int total_points = 0;
@@ -58,14 +58,14 @@ BENCHMARK(Benchmark_Graham, DeliverPackage, 10, 10)
     getHull(inp, total_points, &root);
 }
 
-BENCHMARK(Benchmark_Jarvis, DeliverPackage, 10, 10)
+BENCHMARK(Benchmark_Jarvis, DeliverPackage, 1, 2)
 {
 
     ifstream inputFile;
     ofstream outputFile;
     string filePath;
     // cout << "Enter input file path: ";
-    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/specialcase.txt";
+    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/testcase6.txt";
     inputFile.open(filePath,ios::in);
     string lineinput;
     int total_points = 0;
@@ -90,13 +90,13 @@ BENCHMARK(Benchmark_Jarvis, DeliverPackage, 10, 10)
     hull_compute(inp,result,total_points);
 }
 
-BENCHMARK(Benchmark_KirkPatrickSeidel, DeliverPackage, 10, 1)
+BENCHMARK(Benchmark_KirkPatrickSeidel, DeliverPackage, 1, 2)
 {
     ifstream inputFile;
     ofstream outputFile;
     string filePath;
     // cout << "Enter input file path: ";
-    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/specialcase.txt";
+    filePath = "/home/testsubjector/code/github_c++/CompGeom2/test/testcase6.txt";
     inputFile.open(filePath,ios::in);
     string lineinput;
     int total_points = 0;
@@ -145,7 +145,7 @@ int main(int argc, char const *argv[])
     if(argc != 2 && argc !=3)
     {
         //  cout<<argc<<endl;
-        cout<<"Error, convex hull algorithm argument not specified (g,j or k). Or too many arguments. Exiting"<<endl;
+        cout<<"Error, convex hull algorithm argument not specified (g, j, k or t). Or too many arguments. Exiting"<<endl;
         exit(0);
     }
 
